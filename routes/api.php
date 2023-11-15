@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\ScheduleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,4 +16,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', fn (Request $request) => $request->user());
+Route::prefix('/schedules')
+    ->name('schedules.')
+    ->controller(ScheduleController::class)
+    ->group(function () {
+        Route::post('/', 'store')->name('store');
+    });

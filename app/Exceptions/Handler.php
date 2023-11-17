@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Exceptions;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -27,6 +30,17 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (Throwable $e) {
             //
+        });
+
+        $this->renderable(function (ModelNotFoundException|NotFoundHttpException $e) {
+            $model = match (true) {
+                $e instanceof ModelNotFoundException => str($e->getModel())->basename()->ucsplit()->implode(' '),
+                $e instanceof NotFoundHttpException => str($e->getMessage())->between('[', ']')->afterLast('\\'),
+            };
+
+            $message = __($model . ' not found.');
+
+            return response()->json(compact('message'), Response::HTTP_NOT_FOUND);
         });
     }
 }

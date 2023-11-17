@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ScheduleController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,4 +22,11 @@ Route::prefix('/schedules')
     ->controller(ScheduleController::class)
     ->group(function () {
         Route::post('/', 'store')->name('store');
+    });
+
+Route::prefix('/customers')
+    ->name('customers.')
+    ->controller(CustomerController::class)
+    ->group(function () {
+        Route::get('/{customer:phone_number}', 'show');
     });

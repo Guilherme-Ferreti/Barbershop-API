@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Resources;
+namespace App\Domain\Schedules\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;

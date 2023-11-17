@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Data\Actions;
+namespace App\Domain\Schedules\Data\Actions;
 
 use Carbon\Carbon;
 use Spatie\LaravelData\Attributes\MapInputName;

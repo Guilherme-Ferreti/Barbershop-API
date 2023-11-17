@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\ScheduleController;
+use App\Domain\Customers\Controllers\CustomerController;
+use App\Domain\Schedules\Controllers\ScheduleController;
 use Illuminate\Support\Facades\Route;
 
 /*

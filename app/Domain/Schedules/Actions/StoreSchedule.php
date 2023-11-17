@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Actions;
+namespace App\Domain\Schedules\Actions;
 
-use App\Data\Actions\StoreScheduleData;
-use App\Models\Customer;
-use App\Models\Schedule;
+use App\Domain\Customers\Models\Customer;
+use App\Domain\Schedules\Data\Actions\StoreScheduleData;
+use App\Domain\Schedules\Models\Schedule;
 
 class StoreSchedule
 {

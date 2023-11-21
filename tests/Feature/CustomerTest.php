@@ -6,7 +6,7 @@ use App\Domain\Customers\Models\Customer;
 
 use function Pest\Laravel\getJson;
 
-uses()->group('customer');
+uses()->group('customers');
 
 test('a customer can be retrieved by phone number', function () {
     $customer = Customer::factory()->create();

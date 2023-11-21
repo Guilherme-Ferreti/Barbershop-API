@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Illuminate\Support\Carbon;
+
 /*
 |--------------------------------------------------------------------------
 | Test Case
@@ -16,7 +18,7 @@ declare(strict_types=1);
 uses(
     Tests\TestCase::class,
     Illuminate\Foundation\Testing\RefreshDatabase::class,
-)->in('Feature');
+)->in('Feature', 'Unit');
 
 /*
 |--------------------------------------------------------------------------
@@ -29,7 +31,13 @@ uses(
 |
 */
 
-expect()->extend('toBeOne', fn () => $this->toBe(1));
+expect()->extend('toBeDateFormat', function (string $format) {
+    $date = Carbon::tryCreateFromFormat($format, $this->value);
+
+    expect($date)->not()->toBeNull('Value is not compatible with format ' . $format);
+
+    return $this;
+});
 
 /*
 |--------------------------------------------------------------------------

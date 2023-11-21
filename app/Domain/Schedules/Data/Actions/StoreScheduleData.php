@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Schedules\Data\Actions;
 
-use Carbon\Carbon;
+use App\Domain\Schedules\Rules\AvailableBookingTime;
+use Illuminate\Support\Carbon;
 use Spatie\LaravelData\Attributes\MapInputName;
 use Spatie\LaravelData\Attributes\WithCast;
 use Spatie\LaravelData\Casts\DateTimeInterfaceCast;
@@ -26,7 +27,7 @@ class StoreScheduleData extends Data
         return [
             'customer_phone_number' => ['required', 'string', 'between:12,13'],
             'customer_name'         => ['required', 'string', 'max:255'],
-            'scheduled_to'          => ['required', 'date_format:Y-m-d H:i'],
+            'scheduled_to'          => ['bail', 'required', 'date_format:Y-m-d H:i', new AvailableBookingTime],
         ];
     }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Schedules\Data;
 
-use Carbon\CarbonImmutable;
+use Illuminate\Support\Carbon;
 use Spatie\LaravelData\Attributes\DataCollectionOf;
 use Spatie\LaravelData\Attributes\MapOutputName;
 use Spatie\LaravelData\Attributes\WithTransformer;
@@ -17,7 +17,7 @@ use Spatie\LaravelData\Transformers\DateTimeInterfaceTransformer;
 class BookingDayData extends Data
 {
     #[WithTransformer(DateTimeInterfaceTransformer::class, format: 'Y-m-d')]
-    public CarbonImmutable $date;
+    public Carbon $date;
 
     public array $types;
 
@@ -26,5 +26,5 @@ class BookingDayData extends Data
     public ?HolidayData $holiday;
 
     #[DataCollectionOf(BookingTimeData::class)]
-    public DataCollection $bookings_times;
+    public DataCollection $booking_times;
 }

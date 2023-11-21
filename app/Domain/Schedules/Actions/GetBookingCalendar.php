@@ -68,7 +68,7 @@ class GetBookingCalendar
             'types'          => $this->getTypesForBookingDay($day),
             'is_working_day' => $isWorkingDay,
             'holiday'        => $this->getHoliday($day),
-            'bookings_times' => $isWorkingDay ? $this->getBookingTimesForDay($day) : [],
+            'booking_times'  => $isWorkingDay ? $this->getBookingTimesForDay($day) : [],
         ]);
     }
 
@@ -96,7 +96,7 @@ class GetBookingCalendar
         $holidays = app(ListHolidays::class)->handle(now(static::TIMEZONE)->year);
 
         return $holidays->first(
-            fn (HolidayData $holiday) => $holiday->date->format('Y-m-d') === $day->format('Y-m-d')
+            fn (HolidayData $holiday) => $holiday->date->isSameDay($day)
         );
     }
 

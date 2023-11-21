@@ -198,6 +198,7 @@ return [
         'restored_at'              => 'restaurado em',
         'result_text_under_image'  => 'texto do resultado sob a imagem',
         'role'                     => 'função',
+        'scheduled_to'             => 'horário',
         'second'                   => 'segundo',
         'sex'                      => 'sexo',
         'short_text'               => 'texto pequeno',
@@ -218,4 +219,8 @@ return [
         'username'                 => 'usuário',
         'year'                     => 'ano',
     ],
+
+    // Custom validation rules
+
+    'available_booking_time'       => 'O horário selecionado não está disponível.',
 ];

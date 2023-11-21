@@ -31,5 +31,5 @@ Route::prefix('/customers')
     ->name('customers.')
     ->controller(CustomerController::class)
     ->group(function () {
-        Route::get('/{customer:phone_number}', 'show');
+        Route::get('/{customer:phone_number}', 'show')->name('show');
     });

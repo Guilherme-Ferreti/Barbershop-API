@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Customers\Models;
 
 use App\Domain\Schedules\Models\Schedule;
+use Database\Factories\Customers\CustomerFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -18,6 +19,11 @@ class Customer extends Model
         'phone_number',
         'name',
     ];
+
+    protected static function newFactory(): CustomerFactory
+    {
+        return new CustomerFactory;
+    }
 
     public function schedules(): HasMany
     {

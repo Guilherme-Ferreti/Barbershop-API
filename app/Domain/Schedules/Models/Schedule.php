@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Schedules\Models;
 
 use App\Domain\Customers\Models\Customer;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -27,5 +28,11 @@ class Schedule extends Model
     public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);
+    }
+
+    public function scopeWhereDateBetween(Builder $query, string $column, string $from, string $to): void
+    {
+        $query->whereDate($column, '>=', $from)
+            ->whereDate($column, '<=', $to);
     }
 }

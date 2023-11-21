@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Domain\Customers\Controllers\CustomerController;
+use App\Domain\Schedules\Controllers\BookingCalendarController;
 use App\Domain\Schedules\Controllers\ScheduleController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,6 +23,8 @@ Route::prefix('/schedules')
     ->controller(ScheduleController::class)
     ->group(function () {
         Route::post('/', 'store')->name('store');
+
+        Route::get('/booking-calendar', BookingCalendarController::class)->name('booking-calendar');
     });
 
 Route::prefix('/customers')

@@ -118,14 +118,14 @@ class GetBookingCalendar
 
     private function getDayPeriod(CarbonImmutable $day): Collection
     {
-        $openingHour = 8;
-        $openingMinute = 20;
-        $lunchTimeFromHour = 12;
+        $openingHour         = 8;
+        $openingMinute       = 20;
+        $lunchTimeFromHour   = 12;
         $lunchTimeFromMinute = 0;
-        $lunchTimeToHour = 13;
-        $lunchTimeToMinute = 0;
-        $closingHour = 20;
-        $closingMinute = 0;
+        $lunchTimeToHour     = 13;
+        $lunchTimeToMinute   = 0;
+        $closingHour         = 20;
+        $closingMinute       = 0;
 
         $beforeLunch = CarbonPeriodImmutable::between(
             start: $day->setHour($openingHour)->setMinute($openingMinute),

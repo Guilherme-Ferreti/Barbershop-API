@@ -36,7 +36,7 @@ class AppServiceProvider extends ServiceProvider
         Carbon::macro('tryCreateFromFormat', function (string $format, $value) {
             try {
                 return Carbon::createFromFormat($format, $value);
-            } catch (Exception $e) {
+            } catch (Exception) {
                 return null;
             }
         });

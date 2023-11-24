@@ -14,7 +14,7 @@ class StoreSchedule
     {
         $customer = Customer::firstOrCreate(
             ['phone_number' => $data->customer_phone_number],
-            ['name'         => $data->customer_name],
+            ['name' => $data->customer_name],
         );
 
         return $customer->schedules()->create([

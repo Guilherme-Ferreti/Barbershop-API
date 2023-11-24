@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Schedules\Models;
 
 use App\Domain\Customers\Models\Customer;
+use Database\Factories\Schedules\ScheduleFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -24,6 +25,11 @@ class Schedule extends Model
     protected $casts = [
         'scheduled_to' => 'datetime',
     ];
+
+    protected static function newFactory(): ScheduleFactory
+    {
+        return new ScheduleFactory;
+    }
 
     public function customer(): BelongsTo
     {

@@ -35,7 +35,7 @@ class Handler extends ExceptionHandler
         $this->renderable(function (ModelNotFoundException|NotFoundHttpException $e) {
             $model = match (true) {
                 $e instanceof ModelNotFoundException => str($e->getModel())->basename()->ucsplit()->implode(' '),
-                $e instanceof NotFoundHttpException => str($e->getMessage())->between('[', ']')->afterLast('\\'),
+                $e instanceof NotFoundHttpException  => str($e->getMessage())->between('[', ']')->afterLast('\\'),
             };
 
             $message = __($model . ' not found.');

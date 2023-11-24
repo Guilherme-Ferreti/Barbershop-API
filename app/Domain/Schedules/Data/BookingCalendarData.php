@@ -15,4 +15,14 @@ class BookingCalendarData extends Data
 {
     #[DataCollectionOf(BookingDayData::class)]
     public DataCollection $booking_days;
+
+    public function firstAvailableBookingTime(): ?BookingTimeData
+    {
+        return $this->booking_days
+            ->toCollection()
+            ->firstWhere('is_working_day', true)
+            ?->booking_times
+            ->toCollection()
+            ->firstWhere('is_available', true);
+    }
 }

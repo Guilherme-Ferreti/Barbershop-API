@@ -25,14 +25,12 @@ class AvailableBookingTime implements ValidationRule
         $isAvailable = $bookingCalendar
             ->booking_days
             ->toCollection()
-            ->contains(fn (BookingDayData $bookingDay) =>
-                $bookingDay->is_working_day
+            ->contains(fn (BookingDayData $bookingDay) => $bookingDay->is_working_day
                 && $bookingDay->date->isSameDay($value)
                 && $bookingDay
                     ->booking_times
                     ->toCollection()
-                    ->contains(fn (BookingTimeData $bookingTime) =>
-                        $bookingTime->is_available && $bookingTime->date->isSameHourAndMinute($value)
+                    ->contains(fn (BookingTimeData $bookingTime) => $bookingTime->is_available && $bookingTime->date->isSameHourAndMinute($value)
                     )
             );
 

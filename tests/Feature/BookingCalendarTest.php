@@ -23,13 +23,11 @@ test('the booking calendar can be retrieved', function () {
                 ]],
             ]],
         ])
-        ->bookingDays->each(fn ($bookingDay) =>
-            $bookingDay
+        ->bookingDays->each(fn ($bookingDay) => $bookingDay
                 ->date->toBeDateFormat('Y-m-d')
                 ->types->each->toBeIn(BookingDayType::asArray())
                 ->isWorkingDay->toBeBool()
-                ->bookingTimes->each(fn ($bookingTime) =>
-                    $bookingTime
+                ->bookingTimes->each(fn ($bookingTime) => $bookingTime
                         ->date->toBeDateFormat('Y-m-d H:i')
                         ->isAvailable->toBeBool()
                 )

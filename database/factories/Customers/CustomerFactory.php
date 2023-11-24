@@ -18,7 +18,7 @@ class CustomerFactory extends Factory
     {
         return [
             'name'         => $this->faker->name(),
-            'phone_number' => preg_replace('/[^0-9]/', '', $this->faker->unique()->phoneNumber()),
+            'phone_number' => '55' . preg_replace('/[^0-9]/', '', $this->faker->unique()->phoneNumber()),
         ];
     }
 }

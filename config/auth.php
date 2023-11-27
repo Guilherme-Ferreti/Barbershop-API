@@ -114,4 +114,8 @@ return [
 
     'password_timeout' => 10800,
 
+    'rate_limit' => [
+        'decay_seconds' => 60,
+        'max_attempts'  => 5,
+    ],
 ];

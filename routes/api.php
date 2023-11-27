@@ -36,3 +36,8 @@ Route::name('public.')
                 Route::get('/{customer:phone_number}', 'show')->name('show');
             });
     });
+
+Route::name('authenticated.')
+    ->group(function () {
+
+    });

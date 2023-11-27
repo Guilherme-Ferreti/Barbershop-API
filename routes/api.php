@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use App\Domain\Customers\Controllers\CustomerController;
-use App\Domain\Schedules\Controllers\BookingCalendarController;
-use App\Domain\Schedules\Controllers\ScheduleController;
+use App\Domain\Public\Controllers\BookingCalendarController;
+use App\Domain\Public\Controllers\CustomerController;
+use App\Domain\Public\Controllers\ScheduleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,18 +18,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('/schedules')
-    ->name('schedules.')
-    ->controller(ScheduleController::class)
+Route::name('public.')
     ->group(function () {
-        Route::post('/', 'store')->name('store');
+        Route::prefix('/schedules')
+            ->name('schedules.')
+            ->controller(ScheduleController::class)
+            ->group(function () {
+                Route::post('/', 'store')->name('store');
 
-        Route::get('/booking-calendar', BookingCalendarController::class)->name('booking-calendar');
-    });
+                Route::get('/booking-calendar', BookingCalendarController::class)->name('booking-calendar');
+            });
 
-Route::prefix('/customers')
-    ->name('customers.')
-    ->controller(CustomerController::class)
-    ->group(function () {
-        Route::get('/{customer:phone_number}', 'show')->name('show');
+        Route::prefix('/customers')
+            ->name('customers.')
+            ->controller(CustomerController::class)
+            ->group(function () {
+                Route::get('/{customer:phone_number}', 'show')->name('show');
+            });
     });

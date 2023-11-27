@@ -1,0 +1,43 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Domain\Common\Models;
+
+use Database\Factories\Schedules\ScheduleFactory;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+class Schedule extends Model
+{
+    use HasFactory, HasUlids;
+
+    protected $fillable = [
+        'customer_id',
+        'scheduled_to',
+        'customer_name',
+    ];
+
+    protected $casts = [
+        'scheduled_to' => 'datetime',
+    ];
+
+    protected static function newFactory(): ScheduleFactory
+    {
+        return new ScheduleFactory;
+    }
+
+    public function customer(): BelongsTo
+    {
+        return $this->belongsTo(Customer::class);
+    }
+
+    public function scopeWhereDateBetween(Builder $query, string $column, string $from, string $to): void
+    {
+        $query->whereDate($column, '>=', $from)
+            ->whereDate($column, '<=', $to);
+    }
+}

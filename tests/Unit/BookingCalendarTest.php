@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use App\Domain\Schedules\Actions\GetBookingCalendar;
-use App\Domain\Schedules\Data\BookingDayData;
-use App\Domain\Schedules\Data\BookingTimeData;
+use App\Domain\Public\Actions\GetBookingCalendar;
+use App\Domain\Public\Data\BookingDayData;
+use App\Domain\Public\Data\BookingTimeData;
 
 uses()->group('schedules');
 

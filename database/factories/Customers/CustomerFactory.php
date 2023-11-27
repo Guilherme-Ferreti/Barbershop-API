@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Database\Factories\Customers;
 
-use App\Domain\Customers\Models\Customer;
+use App\Domain\Common\Models\Customer;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Domain\Customers\Models\Customer>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Domain\Common\Models\Customer>
  */
 class CustomerFactory extends Factory
 {

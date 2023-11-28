@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Public\Controllers;
 
 use App\Domain\Common\Models\Customer;
-use App\Domain\Public\Resources\CustomerResource;
+use App\Domain\Common\Resources\CustomerResource;
 use App\Http\Controllers\Controller;
 
 class CustomerController extends Controller

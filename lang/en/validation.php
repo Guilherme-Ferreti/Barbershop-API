@@ -222,4 +222,5 @@ return [
     // Custom validation rules
 
     'available_booking_time' => 'The selected time is not available.',
+    'brazilian_phone_number' => 'The provided value must be a valid phone number.',
 ];

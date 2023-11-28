@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Public\Data\Actions;
 
+use App\Domain\Common\Rules\BrazilianPhoneNumber;
 use App\Domain\Public\Rules\AvailableBookingTime;
 use Illuminate\Support\Carbon;
 use Spatie\LaravelData\Attributes\MapInputName;
@@ -25,7 +26,7 @@ class StoreScheduleData extends Data
     public static function rules(): array
     {
         return [
-            'customer_phone_number' => ['required', 'string', 'between:12,13'],
+            'customer_phone_number' => ['required', 'string', new BrazilianPhoneNumber],
             'customer_name'         => ['required', 'string', 'max:255'],
             'scheduled_to'          => ['bail', 'required', 'date_format:Y-m-d H:i', new AvailableBookingTime],
         ];

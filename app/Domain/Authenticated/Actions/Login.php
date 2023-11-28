@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Authenticated\Actions;
 
+use App\Domain\Authenticated\Data\LoginData;
 use App\Domain\Common\Enums\AuthType;
 use App\Domain\Common\Models\Customer;
 use Firebase\JWT\JWT;
@@ -13,20 +14,24 @@ use Illuminate\Validation\ValidationException;
 
 class Login
 {
+    private LoginData $data;
+
     private ?Customer $customer;
 
-    public function handle(string $phoneNumber): array
+    public function handle(LoginData $data): array
     {
-        $this->loadCustomer($phoneNumber);
+        $this->data = $data;
+
+        $this->loadCustomer();
 
         $this->ensureIsNotRateLimited();
 
         return $this->authenticate();
     }
 
-    private function loadCustomer(string $phoneNumber): void
+    private function loadCustomer(): void
     {
-        $this->customer = Customer::firstWhere('phone_number', $phoneNumber);
+        $this->customer = Customer::firstWhere('phone_number', $this->data->phone_number);
     }
 
     private function ensureIsNotRateLimited(): void

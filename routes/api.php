@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Domain\Authenticated\Controllers\LoginController;
 use App\Domain\Public\Controllers\BookingCalendarController;
 use App\Domain\Public\Controllers\CustomerController;
 use App\Domain\Public\Controllers\ScheduleController;
@@ -38,6 +39,7 @@ Route::name('public.')
     });
 
 Route::name('authenticated.')
+    ->prefix('/auth')
     ->group(function () {
-
+        Route::post('/login', LoginController::class);
     });

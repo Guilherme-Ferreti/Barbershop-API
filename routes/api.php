@@ -41,5 +41,5 @@ Route::name('public.')
 Route::name('authenticated.')
     ->prefix('/auth')
     ->group(function () {
-        Route::post('/login', LoginController::class);
+        Route::post('/login', LoginController::class)->name('login');
     });

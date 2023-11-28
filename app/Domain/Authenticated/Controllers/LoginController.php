@@ -16,8 +16,8 @@ class LoginController extends Controller
         [$customer, $token] = app(Login::class)->handle($data);
 
         return response()->json([
-            'customer' => new CustomerResource($customer),
-            'token' => $token,
+            'customer'    => new CustomerResource($customer),
+            'accessToken' => $token,
         ]);
     }
 }

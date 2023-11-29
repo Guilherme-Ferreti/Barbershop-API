@@ -43,6 +43,6 @@ class Schedule extends Model
 
     public function scopePending(Builder $query): void
     {
-        $query->where('scheduled_to', '>=', now('America/Sao_Paulo')->seconds(0)->format('Y-m-d H:i:s'));
+        $query->where('scheduled_to', '>=', now()->seconds(0)->format('Y-m-d H:i:s'));
     }
 }

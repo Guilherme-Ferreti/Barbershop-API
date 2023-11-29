@@ -9,6 +9,7 @@ use App\Domain\Public\Actions\GetBookingCalendar;
 use function Pest\Laravel\assertDatabaseCount;
 use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\postJson;
+use function Pest\Laravel\travelTo;
 
 uses()->group('schedules');
 
@@ -89,6 +90,24 @@ test('a schedule cannot be created if date is already in use', function () {
         'customerName'        => $customer->name,
         'customerPhoneNumber' => $customer->phone_number,
         'scheduledTo'         => $schedule->scheduled_to->format('Y-m-d H:i'),
+    ];
+
+    postJson(route('public.schedules.store'), $payload)
+        ->assertUnprocessable()
+        ->assertInvalid('scheduled_to');
+});
+
+test('a schedule cannot be created if scheduled to is past date', function () {
+    $bookingTime = app(GetBookingCalendar::class)->handle()->firstAvailableBookingTime();
+
+    travelTo($bookingTime->date->addMinutes(40));
+
+    $customer = Customer::factory()->makeOne();
+
+    $payload = [
+        'customerName'        => $customer->name,
+        'customerPhoneNumber' => $customer->phone_number,
+        'scheduledTo'         => $bookingTime->date->format('Y-m-d H:i'),
     ];
 
     postJson(route('public.schedules.store'), $payload)

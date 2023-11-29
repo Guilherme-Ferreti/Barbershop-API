@@ -18,8 +18,6 @@ use Spatie\LaravelData\DataCollection;
 
 class GetBookingCalendar
 {
-    const TIMEZONE = 'America/Sao_Paulo';
-
     public Collection $schedules;
 
     public function handle(): BookingCalendarData
@@ -54,7 +52,7 @@ class GetBookingCalendar
 
     private function getCalendarPeriod(): CarbonPeriod
     {
-        $now = now(static::TIMEZONE)->startOfDay()->toImmutable();
+        $now = now()->startOfDay()->toImmutable();
 
         return CarbonPeriodImmutable::since($now->startOfDay())->days(1)->until($now->addWeek());
     }
@@ -93,7 +91,7 @@ class GetBookingCalendar
 
     private function getHoliday(CarbonImmutable $day): ?HolidayData
     {
-        $holidays = app(ListHolidays::class)->handle(now(static::TIMEZONE)->year);
+        $holidays = app(ListHolidays::class)->handle(now()->year);
 
         return $holidays->first(
             fn (HolidayData $holiday) => $holiday->date->isSameDay($day)
@@ -111,7 +109,12 @@ class GetBookingCalendar
             ->map(fn (CarbonImmutable $period) => [
                 'date'         => $period,
                 'is_available' => $this->schedules->doesntContain('scheduled_to', $period->format('Y-m-d H:i:s')),
-            ]);
+            ])
+            ->when(
+                $day->isToday(),
+                fn (Collection $collection) => $collection->filter(fn (array $item) => $item['date']->greaterThan(now()))
+            )
+            ->values();
 
         return BookingTimeData::collection($bookingTimes);
     }

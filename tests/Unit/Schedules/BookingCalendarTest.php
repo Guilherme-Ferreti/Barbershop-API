@@ -6,6 +6,8 @@ use App\Domain\Public\Actions\GetBookingCalendar;
 use App\Domain\Public\Data\BookingDayData;
 use App\Domain\Public\Data\BookingTimeData;
 
+use function Pest\Laravel\travelTo;
+
 uses()->group('schedules');
 
 test('the booking calendar displays correct number of booking days', function () {
@@ -17,6 +19,8 @@ test('the booking calendar displays correct number of booking days', function ()
 });
 
 test('the booking calendar displays booking times gaps correctly', function (array $bookingHours) {
+    travelTo(now()->startOfDay());
+
     $bookingCalendar = app(GetBookingCalendar::class)->handle();
 
     $bookingCalendar

@@ -20,21 +20,21 @@ class ScheduleFactory extends Factory
         return [
             'customer_id'   => Customer::factory(),
             'customer_name' => fn (array $attributes) => Customer::find($attributes['customer_id'])->name,
-            'scheduled_to'  => fake()->dateTime(timezone: 'America/Sao_Paulo'),
+            'scheduled_to'  => fake()->dateTime(),
         ];
     }
 
     public function pending(): static
     {
         return $this->state(fn (array $attributes) => [
-            'scheduled_to' => fake()->dateTimeBetween(startDate: '+1 hour', endDate: '+3 days', timezone: 'America/Sao_Paulo'),
+            'scheduled_to' => fake()->dateTimeBetween(startDate: '+1 hour', endDate: '+3 days'),
         ]);
     }
 
     public function completed(): static
     {
         return $this->state(fn (array $attributes) => [
-            'scheduled_to' => fake()->dateTime(max: '-1 day', timezone: 'America/Sao_Paulo'),
+            'scheduled_to' => fake()->dateTime(max: '-1 day'),
         ]);
     }
 }

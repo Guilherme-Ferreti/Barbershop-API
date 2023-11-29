@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Domain\Authenticated\Actions\Login;
 use App\Domain\Authenticated\Data\LoginData;
 use App\Domain\Common\Models\Customer;
 

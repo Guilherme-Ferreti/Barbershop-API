@@ -17,12 +17,24 @@ class ScheduleFactory extends Factory
 
     public function definition(): array
     {
-        $customer = Customer::factory()->create();
-
         return [
-            'customer_id'   => $customer->id,
-            'customer_name' => $customer->name,
-            'scheduled_to'  => $this->faker->dateTime(),
+            'customer_id'   => Customer::factory(),
+            'customer_name' => fn (array $attributes) => Customer::find($attributes['customer_id'])->name,
+            'scheduled_to'  => fake()->dateTime(timezone: 'America/Sao_Paulo'),
         ];
+    }
+
+    public function pending(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'scheduled_to' => fake()->dateTimeBetween(startDate: '+1 hour', endDate: '+3 days', timezone: 'America/Sao_Paulo'),
+        ]);
+    }
+
+    public function completed(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'scheduled_to' => fake()->dateTime(max: '-1 day', timezone: 'America/Sao_Paulo'),
+        ]);
     }
 }

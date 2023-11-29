@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Http;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +19,9 @@ use Illuminate\Support\Carbon;
 uses(
     Tests\TestCase::class,
     Illuminate\Foundation\Testing\RefreshDatabase::class,
-)->in('Feature', 'Unit');
+)
+    ->beforeEach(fn () => Http::fake())
+    ->in('Feature', 'Unit');
 
 /*
 |--------------------------------------------------------------------------

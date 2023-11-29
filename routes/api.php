@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Domain\Authenticated\Controllers\LoginController;
 use App\Domain\Authenticated\Controllers\ProfileController;
+use App\Domain\Authenticated\Controllers\ScheduleController as AuthenticatedScheduleController;
 use App\Domain\Public\Controllers\BookingCalendarController;
 use App\Domain\Public\Controllers\CustomerController;
 use App\Domain\Public\Controllers\ScheduleController;
@@ -51,5 +52,13 @@ Route::name('authenticated.')
             ->group(function () {
                 Route::get('/', 'show')->name('show');
                 Route::patch('/', 'update')->name('update');
+            });
+        
+        Route::prefix('/schedules')
+            ->name('schedules.')
+            ->middleware('auth')
+            ->controller(AuthenticatedScheduleController::class)
+            ->group(function () {
+                Route::get('/', 'index')->name('index');
             });
     });

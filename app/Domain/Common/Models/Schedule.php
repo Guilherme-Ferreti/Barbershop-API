@@ -6,10 +6,12 @@ namespace App\Domain\Common\Models;
 
 use Database\Factories\Schedules\ScheduleFactory;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 class Schedule extends Model
 {
@@ -33,6 +35,11 @@ class Schedule extends Model
     public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);
+    }
+
+    public function isPending(): bool
+    {
+        return $this->scheduled_to->greaterThan(now()->seconds(0));
     }
 
     public function scopeWhereDateBetween(Builder $query, string $column, string $from, string $to): void

@@ -53,7 +53,7 @@ Route::name('authenticated.')
                 Route::get('/', 'show')->name('show');
                 Route::patch('/', 'update')->name('update');
             });
-        
+
         Route::prefix('/schedules')
             ->name('schedules.')
             ->middleware('auth')

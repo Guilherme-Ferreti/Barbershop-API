@@ -59,15 +59,20 @@ class GetBookingCalendar
 
     private function createBookingDay(CarbonImmutable $day): BookingDayData
     {
-        $isWorkingDay = ! $this->isHoliday($day) && ! $day->isSunday();
+        $bookingTimes = $this->getBookingTimesForDay($day);
 
         return BookingDayData::from([
             'date'           => $day,
             'types'          => $this->getTypesForBookingDay($day),
-            'is_working_day' => $isWorkingDay,
+            'is_working_day' => $this->isWorkingDay($day),
             'holiday'        => $this->getHoliday($day),
-            'booking_times'  => $isWorkingDay ? $this->getBookingTimesForDay($day) : [],
+            'booking_times'  => $bookingTimes,
         ]);
+    }
+
+    private function isWorkingDay(CarbonImmutable $day): bool
+    {
+        return ! $this->isHoliday($day) && ! $day->isSunday();
     }
 
     private function getTypesForBookingDay(CarbonImmutable $day): array
@@ -105,21 +110,38 @@ class GetBookingCalendar
 
     private function getBookingTimesForDay(CarbonImmutable $day): DataCollection
     {
-        $bookingTimes = $this->getDayPeriod($day)
-            ->map(fn (CarbonImmutable $period) => [
-                'date'         => $period,
-                'is_available' => $this->schedules->doesntContain('scheduled_to', $period->format('Y-m-d H:i:s')),
+        $bookingTimes = $this->getBookinkHours($day)
+            ->map(fn (CarbonImmutable $hour) => [
+                'date'         => $hour,
+                'is_available' => $this->bookingHourIsAvailable($hour, $day),
             ])
-            ->when(
-                $day->isToday(),
-                fn (Collection $collection) => $collection->filter(fn (array $item) => $item['date']->greaterThan(now()))
-            )
             ->values();
 
         return BookingTimeData::collection($bookingTimes);
     }
 
-    private function getDayPeriod(CarbonImmutable $day): Collection
+    private function bookingHourIsAvailable(CarbonImmutable $hour, CarbonImmutable $day): bool
+    {
+        if (! $this->isWorkingDay($day)) {
+            return false;
+        }
+
+        $hourIsPastTodaysHour = $day->isToday() && now()->greaterThan($hour);
+
+        if ($hourIsPastTodaysHour) {
+            return false;
+        }
+
+        $hourIsBooked = $this->schedules->contains('scheduled_to', $hour->format('Y-m-d H:i:s'));
+
+        if ($hourIsBooked) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private function getBookinkHours(CarbonImmutable $day): Collection
     {
         $openingHour         = 8;
         $openingMinute       = 20;

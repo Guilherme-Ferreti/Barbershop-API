@@ -97,10 +97,12 @@ test('a schedule cannot be created if date is already in use', function () {
         ->assertInvalid('scheduled_to');
 });
 
-test('a schedule cannot be created if scheduled to is past date', function () {
+test('a schedule cannot be created if scheduled to is before booking hour', function () {
+    travelTo(now()->startOfWeek());
+
     $bookingTime = app(GetBookingCalendar::class)->handle()->firstAvailableBookingTime();
 
-    travelTo($bookingTime->date->addMinutes(40));
+    travelTo($bookingTime->date->toImmutable()->addHour());
 
     $customer = Customer::factory()->makeOne();
 

@@ -20,7 +20,7 @@ class BookingCalendarData extends Data
     {
         return $this->booking_days
             ->toCollection()
-            ->firstWhere('is_working_day', true)
+            ->firstWhere(fn (BookingDayData $bookingDay) => $bookingDay->is_working_day && $bookingDay->booking_times->toCollection()->contains('is_available', true))
             ?->booking_times
             ->toCollection()
             ->firstWhere('is_available', true);

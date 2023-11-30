@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Domain\Common\Models\Schedule;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
@@ -28,6 +29,13 @@ class RouteServiceProvider extends ServiceProvider
     {
         RateLimiter::for('api', fn (Request $request) => Limit::perMinute(60)->by($request->user()?->id ?: $request->ip()));
 
+        $this->configureRoute();
+        $this->configureCustomRouteBindings();
+
+    }
+
+    private function configureRoute(): void
+    {
         $this->routes(function () {
             Route::middleware('api')
                 ->prefix('api')
@@ -37,5 +45,10 @@ class RouteServiceProvider extends ServiceProvider
                     base_path('routes/api/admin.php'),
                 ]);
         });
+    }
+
+    private function configureCustomRouteBindings(): void
+    {
+        Route::bind('pendingSchedule', fn (string $value) => Schedule::pending()->findOrFail($value));
     }
 }

@@ -9,7 +9,7 @@ use function Pest\Laravel\getJson;
 uses()->group('schedules');
 
 test('the booking calendar can be retrieved', function () {
-    $response = getJson(route('public.schedules.booking-calendar'))->assertOk();
+    $response = getJson(route('public.schedules.booking-calendar.show'))->assertOk();
 
     expect($response->json())
         ->toHaveKeys([

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Domain\Public\Resources;
 
-use App\Domain\Common\Models\Schedule;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -17,11 +16,12 @@ class CustomerShowResource extends JsonResource
             'name'        => $this->name,
             'phoneNumber' => $this->phone_number,
 
-            'schedules' => $this->schedules->map(fn (Schedule $schedule) => [
-                'id'           => $schedule->id,
-                'customerName' => $schedule->customer_name,
-                'scheduledTo'  => formatDate($schedule->scheduled_to),
-            ]),
+            'pendingSchedule' => $this->when($this->pendingSchedule, fn () => [
+                'id'           => $this->pendingSchedule->id,
+                'customerName' => $this->pendingSchedule->customer_name,
+                'isPending'    => $this->pendingSchedule->isPending(),
+                'scheduledTo'  => formatDate($this->pendingSchedule->scheduled_to),
+            ], null),
         ];
     }
 }

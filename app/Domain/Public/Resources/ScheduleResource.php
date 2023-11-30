@@ -15,6 +15,7 @@ class ScheduleResource extends JsonResource
             'id'           => $this->id,
             'customerName' => $this->customer_name,
             'scheduledTo'  => formatDate($this->scheduled_to),
+            'isPending'    => $this->isPending(),
             'createdAt'    => formatDate($this->created_at),
             'updatedAt'    => formatDate($this->updated_at),
 

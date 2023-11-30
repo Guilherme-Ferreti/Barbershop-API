@@ -11,6 +11,8 @@ class ScheduleController extends Controller
 {
     public function index()
     {
-        return ScheduleIndexResource::collection(currentUser()->schedules);
+        $schedules = currentUser()->schedules()->orderByDesc('created_at')->get();
+
+        return ScheduleIndexResource::collection($schedules);
     }
 }

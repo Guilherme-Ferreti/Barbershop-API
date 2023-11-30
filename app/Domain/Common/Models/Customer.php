@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Domain\Common\Models;
 
 use Database\Factories\Customers\CustomerFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Customer extends Authenticatable
@@ -27,5 +29,12 @@ class Customer extends Authenticatable
     public function schedules(): HasMany
     {
         return $this->hasMany(Schedule::class);
+    }
+
+    public function pendingSchedule(): HasOne
+    {
+        return $this->schedules()->one()->ofMany([
+            'scheduled_to' => 'max',
+        ], fn (Builder $query) => $query->pending());
     }
 }

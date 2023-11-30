@@ -37,7 +37,7 @@ class Schedule extends Model
 
     public function isPending(): bool
     {
-        return $this->scheduled_to->greaterThan(now()->seconds(0));
+        return $this->scheduled_to->greaterThanOrEqualTo(now()->seconds(0));
     }
 
     public function scopeWhereDateBetween(Builder $query, string $column, string $from, string $to): void

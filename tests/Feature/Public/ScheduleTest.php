@@ -8,6 +8,7 @@ use App\Domain\Public\Actions\GetBookingCalendar;
 
 use function Pest\Laravel\assertDatabaseCount;
 use function Pest\Laravel\assertDatabaseHas;
+use function Pest\Laravel\assertModelMissing;
 use function Pest\Laravel\postJson;
 use function Pest\Laravel\travelTo;
 
@@ -31,6 +32,7 @@ test('a schedule can be created with existing customer', function () {
             'id',
             'customerName',
             'scheduledTo',
+            'isPending',
             'createdAt',
             'updatedAt',
             'customer' => [
@@ -115,4 +117,27 @@ test('a schedule cannot be created if scheduled to is before booking hour', func
     postJson(route('public.schedules.store'), $payload)
         ->assertUnprocessable()
         ->assertInvalid('scheduled_to');
+});
+
+test('a pending schedule is replaced when customer creates a new one', function () {
+    $customer = Customer::factory()->create();
+
+    $pendingSchedule = Schedule::factory()->pending()->for($customer)->create();
+
+    $bookingTime = app(GetBookingCalendar::class)->handle()->firstAvailableBookingTime();
+
+    $payload = [
+        'customerName'        => $customer->name,
+        'customerPhoneNumber' => $customer->phone_number,
+        'scheduledTo'         => $bookingTime->date->format('Y-m-d H:i'),
+    ];
+
+    postJson(route('public.schedules.store'), $payload)->assertCreated();
+
+    assertModelMissing($pendingSchedule);
+
+    assertDatabaseHas(Schedule::class, [
+        'customer_id'  => $customer->id,
+        'scheduled_to' => $bookingTime->date->format('Y-m-d H:i:s'),
+    ]);
 });

@@ -17,6 +17,8 @@ class StoreSchedule
             ['name' => $data->customer_name],
         );
 
+        $customer->pendingSchedule()->delete();
+
         return $customer->schedules()->create([
             'scheduled_to'  => $data->scheduled_to,
             'customer_name' => $data->customer_name,

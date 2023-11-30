@@ -24,16 +24,17 @@ test('a customer can be retrieved by phone number', function () {
             'id',
             'name',
             'phoneNumber',
-            'schedules' => [[
+            'pendingSchedule' => [
                 'id',
                 'customerName',
                 'scheduledTo',
-            ]],
+                'isPending',
+            ],
         ])
         ->id->toBe($customer->id)
         ->name->toBe($customer->name)
         ->phoneNumber->toBe($customer->phone_number)
-        ->schedules->toHaveCount(1);
+        ->pendingSchedule->id->toBe($customer->pendingSchedule->id);
 });
 
 test('a customer cannot be found using non-existing phone number', function () {

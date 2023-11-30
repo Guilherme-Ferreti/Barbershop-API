@@ -11,7 +11,7 @@ function currentUser(): User|Customer
     return auth()->user();
 }
 
-function formatDate(Carbon $date): string
+function formatDate(Carbon $date, string $format = 'Y-m-d H:i:s'): string
 {
-    return $date->format('Y-m-d H:i:s');
+    return $date->format($format);
 }

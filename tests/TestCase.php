@@ -12,7 +12,6 @@ abstract class TestCase extends BaseTestCase
 
     public function assertAuthenticatedOnly(string $route, string $method = 'post'): void
     {
-        $response = $this->{$method . 'Json'}($route);
-        $response->assertUnauthorized();
+        $this->{$method . 'Json'}($route)->assertUnauthorized();
     }
 }

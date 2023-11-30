@@ -14,7 +14,7 @@ class ScheduleIndexResource extends JsonResource
         return [
             'id'           => $this->id,
             'customerName' => $this->customer_name,
-            'scheduledTo'  => formatDate($this->scheduled_to),
+            'scheduledTo'  => formatDate($this->scheduled_to, 'Y-m-d H:i'),
             'createdAt'    => formatDate($this->created_at),
             'isPending'    => $this->isPending(),
         ];

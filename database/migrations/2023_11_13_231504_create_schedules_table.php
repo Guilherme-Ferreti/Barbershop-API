@@ -17,7 +17,7 @@ return new class extends Migration
         Schema::create('schedules', function (Blueprint $table) {
             $table->ulid('id')->primary();
             $table->foreignIdFor(Customer::class);
-            $table->dateTime('scheduled_to');
+            $table->timestamp('scheduled_to');
             $table->string('customer_name');
             $table->timestamps();
         });

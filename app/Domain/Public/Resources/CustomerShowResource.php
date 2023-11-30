@@ -20,7 +20,7 @@ class CustomerShowResource extends JsonResource
             'schedules' => $this->schedules->map(fn (Schedule $schedule) => [
                 'id'           => $schedule->id,
                 'customerName' => $schedule->customer_name,
-                'scheduledTo'  => $schedule->scheduled_to,
+                'scheduledTo'  => formatDate($schedule->scheduled_to),
             ]),
         ];
     }

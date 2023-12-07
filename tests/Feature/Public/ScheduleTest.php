@@ -97,7 +97,7 @@ test('a schedule cannot be created if date is already in use', function () {
 
     postJson(route('public.schedules.store'), $payload)
         ->assertUnprocessable()
-        ->assertInvalid('scheduled_to');
+        ->assertInvalid('scheduledTo');
 });
 
 test('a schedule cannot be created if scheduled to is before booking hour', function () {
@@ -117,7 +117,7 @@ test('a schedule cannot be created if scheduled to is before booking hour', func
 
     postJson(route('public.schedules.store'), $payload)
         ->assertUnprocessable()
-        ->assertInvalid('scheduled_to');
+        ->assertInvalid('scheduledTo');
 });
 
 test('a pending schedule is replaced when customer creates a new one', function () {

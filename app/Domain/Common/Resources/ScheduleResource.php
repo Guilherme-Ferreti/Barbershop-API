@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Public\Resources;
+namespace App\Domain\Common\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -14,14 +14,17 @@ class ScheduleResource extends JsonResource
         return [
             'id'           => $this->id,
             'customerName' => $this->customer_name,
-            'scheduledTo'  => formatDate($this->scheduled_to),
+            'scheduledTo'  => formatDate($this->scheduled_to, 'Y-m-d H:i'),
             'isPending'    => $this->isPending(),
             'createdAt'    => formatDate($this->created_at),
             'updatedAt'    => formatDate($this->updated_at),
 
-            'customer' => $this->whenLoaded('customer', [
-                'id'   => $this->customer_id,
-                'name' => $this->customer->name,
+            $this->mergeWhen($request->routeIs('public.schedules.store'), fn () => [
+                'customer' => [
+                    'id'          => $this->customer_id,
+                    'name'        => $this->customer->name,
+                    'phoneNumber' => $this->customer->phone_number,
+                ],
             ]),
         ];
     }

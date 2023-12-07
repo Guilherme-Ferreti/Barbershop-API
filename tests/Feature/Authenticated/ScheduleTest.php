@@ -30,6 +30,7 @@ test('a customer\'s schedules can be retrieved', function () {
             'customerName',
             'scheduledTo',
             'createdAt',
+            'updatedAt',
             'isPending',
         ]])
         ->each(fn ($schedule) => $schedule
@@ -37,6 +38,7 @@ test('a customer\'s schedules can be retrieved', function () {
             ->customerName->toBeString()
             ->scheduledTo->toBeString()->toBeDateFormat('Y-m-d H:i')
             ->createdAt->toBeString()->toBeDateFormat('Y-m-d H:i:s')
+            ->updatedAt->toBeString()->toBeDateFormat('Y-m-d H:i:s')
             ->isPending->toBeBool()
         );
 

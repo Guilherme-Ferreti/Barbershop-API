@@ -28,6 +28,8 @@ test('a customer can be retrieved by phone number', function () {
                 'id',
                 'customerName',
                 'scheduledTo',
+                'createdAt',
+                'updatedAt',
                 'isPending',
             ],
         ])

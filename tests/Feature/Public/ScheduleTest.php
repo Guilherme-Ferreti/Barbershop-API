@@ -38,6 +38,7 @@ test('a schedule can be created with existing customer', function () {
             'customer' => [
                 'id',
                 'name',
+                'phoneNumber',
             ],
         ]);
 

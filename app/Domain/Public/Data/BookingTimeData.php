@@ -5,17 +5,13 @@ declare(strict_types=1);
 namespace App\Domain\Public\Data;
 
 use Illuminate\Support\Carbon;
-use Spatie\LaravelData\Attributes\MapOutputName;
-use Spatie\LaravelData\Attributes\WithTransformer;
-use Spatie\LaravelData\Data;
-use Spatie\LaravelData\Mappers\CamelCaseMapper;
-use Spatie\LaravelData\Transformers\DateTimeInterfaceTransformer;
 
-#[MapOutputName(CamelCaseMapper::class)]
-class BookingTimeData extends Data
+class BookingTimeData
 {
-    #[WithTransformer(DateTimeInterfaceTransformer::class, format: 'Y-m-d H:i')]
-    public Carbon $date;
+    public function __construct(
+        public Carbon $date,
+        public bool $is_available,
+    ) {
 
-    public bool $is_available;
+    }
 }

@@ -25,10 +25,9 @@ test('booking calendar creates booking times gaps correctly', function (array $b
 
     $bookingCalendar
         ->booking_days
-        ->toCollection()
         ->where('is_working_day', true)
         ->each(function (BookingDayData $bookingDay) use ($bookingHours) {
-            $hours = $bookingDay->booking_times->toCollection()->map(
+            $hours = $bookingDay->booking_times->map(
                 fn (BookingTimeData $bookingTime) => $bookingTime->date->format('H:i')
             )->toArray();
 
@@ -63,8 +62,7 @@ test('booking calendar sets today\'s booking times as unavailable if current hou
         ->handle()
         ->booking_days
         ->first()
-        ->booking_times
-        ->toCollection();
+        ->booking_times;
 
     $unavailableBookingTimes = $bookingTimes
         ->where('is_available', false)

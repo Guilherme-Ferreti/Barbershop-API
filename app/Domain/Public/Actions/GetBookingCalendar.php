@@ -11,10 +11,9 @@ use App\Domain\Public\Data\BookingDayData;
 use App\Domain\Public\Data\BookingTimeData;
 use App\Domain\Public\Data\HolidayData;
 use Carbon\CarbonImmutable;
-use Carbon\CarbonPeriod;
 use Carbon\CarbonPeriodImmutable;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use Spatie\LaravelData\DataCollection;
 
 class GetBookingCalendar
 {
@@ -24,9 +23,9 @@ class GetBookingCalendar
     {
         $this->loadSchedules();
 
-        return BookingCalendarData::from([
-            'booking_days' => $this->getBookingDays(),
-        ]);
+        return new BookingCalendarData(
+            booking_days: $this->getBookingDays(),
+        );
     }
 
     private function loadSchedules(): void
@@ -42,15 +41,13 @@ class GetBookingCalendar
             ->get();
     }
 
-    private function getBookingDays(): DataCollection
+    private function getBookingDays(): Collection
     {
-        return BookingDayData::collection(
-            collect($this->getCalendarPeriod())
-                ->map(fn (CarbonImmutable $day) => $this->createBookingDay($day))
-        );
+        return collect($this->getCalendarPeriod())
+            ->map(fn (CarbonImmutable $day) => $this->createBookingDay($day));
     }
 
-    private function getCalendarPeriod(): CarbonPeriod
+    private function getCalendarPeriod(): CarbonPeriodImmutable
     {
         $now = now()->startOfDay()->toImmutable();
 
@@ -61,8 +58,8 @@ class GetBookingCalendar
     {
         $bookingTimes = $this->getBookingTimesForDay($day);
 
-        return BookingDayData::from([
-            'date'           => $day,
+        return new BookingDayData(...[
+            'date'           => Carbon::create($day),
             'types'          => $this->getTypesForBookingDay($day),
             'is_working_day' => $this->isWorkingDay($day),
             'holiday'        => $this->getHoliday($day),
@@ -108,16 +105,14 @@ class GetBookingCalendar
         return (bool) $this->getHoliday($day);
     }
 
-    private function getBookingTimesForDay(CarbonImmutable $day): DataCollection
+    private function getBookingTimesForDay(CarbonImmutable $day): Collection
     {
-        $bookingTimes = $this->getBookinkHours($day)
-            ->map(fn (CarbonImmutable $hour) => [
-                'date'         => $hour,
+        return $this->getBookingHours($day)
+            ->map(fn (CarbonImmutable $hour) => new BookingTimeData(...[
+                'date'         => Carbon::create($hour),
                 'is_available' => $this->bookingHourIsAvailable($hour, $day),
-            ])
+            ]))
             ->values();
-
-        return BookingTimeData::collection($bookingTimes);
     }
 
     private function bookingHourIsAvailable(CarbonImmutable $hour, CarbonImmutable $day): bool
@@ -141,7 +136,7 @@ class GetBookingCalendar
         return true;
     }
 
-    private function getBookinkHours(CarbonImmutable $day): Collection
+    private function getBookingHours(CarbonImmutable $day): Collection
     {
         $openingHour         = 8;
         $openingMinute       = 20;

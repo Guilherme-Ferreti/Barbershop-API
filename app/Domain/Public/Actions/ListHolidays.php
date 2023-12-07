@@ -5,17 +5,17 @@ declare(strict_types=1);
 namespace App\Domain\Public\Actions;
 
 use App\Domain\Public\Data\HolidayData;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
-use Spatie\LaravelData\DataCollection;
 
 class ListHolidays
 {
-    public function handle(int $year): DataCollection
+    public function handle(int $year): Collection
     {
         $holidays = (string) Cache::rememberForever("holidays_$year", fn () => $this->listHolidaysFromApi($year));
 
-        return HolidayData::collection(json_decode($holidays));
+        return HolidayData::collectionFromArray(json_decode($holidays, true) ?? []);
     }
 
     private function listHolidaysFromApi(int $year): string

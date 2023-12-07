@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Authenticated\Controllers;
 
-use App\Domain\Authenticated\Data\UpdateProfileData;
+use App\Domain\Authenticated\Requests\UpdateProfileRequest;
 use App\Domain\Common\Resources\CustomerResource;
 use App\Http\Controllers\Controller;
 
@@ -15,9 +15,9 @@ class ProfileController extends Controller
         return new CustomerResource(currentUser());
     }
 
-    public function update(UpdateProfileData $data)
+    public function update(UpdateProfileRequest $request)
     {
-        currentUser()->update($data->toArray());
+        currentUser()->update($request->validated());
 
         return new CustomerResource(currentUser());
     }

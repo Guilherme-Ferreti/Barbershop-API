@@ -15,7 +15,7 @@ uses()->group('authenticated');
 test('jwt authentication works', function () {
     $customer = Customer::factory()->create();
 
-    [, $jwt] = app(Login::class)->handle(LoginData::from(['phoneNumber' => $customer->phone_number]));
+    [, $jwt] = app(Login::class)->handle(new LoginData($customer->phone_number));
 
     $route = route('authenticated.profile.show');
 

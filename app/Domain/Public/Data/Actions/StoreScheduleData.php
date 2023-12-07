@@ -4,31 +4,24 @@ declare(strict_types=1);
 
 namespace App\Domain\Public\Data\Actions;
 
-use App\Domain\Common\Rules\BrazilianPhoneNumber;
-use App\Domain\Public\Rules\AvailableBookingTime;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Spatie\LaravelData\Attributes\MapInputName;
-use Spatie\LaravelData\Attributes\WithCast;
-use Spatie\LaravelData\Casts\DateTimeInterfaceCast;
-use Spatie\LaravelData\Data;
-use Spatie\LaravelData\Mappers\CamelCaseMapper;
 
-#[MapInputName(CamelCaseMapper::class)]
-class StoreScheduleData extends Data
+class StoreScheduleData
 {
-    public string $customer_phone_number;
+    public function __construct(
+        public string $customer_phone_number,
+        public string $customer_name,
+        public Carbon $scheduled_to,
+    ) {
+    }
 
-    public string $customer_name;
-
-    #[WithCast(DateTimeInterfaceCast::class, format: 'Y-m-d H:i')]
-    public Carbon $scheduled_to;
-
-    public static function rules(): array
+    public static function fromRequest(Request $request): static
     {
-        return [
-            'customer_phone_number' => ['required', 'string', new BrazilianPhoneNumber],
-            'customer_name'         => ['required', 'string', 'max:255'],
-            'scheduled_to'          => ['bail', 'required', 'date_format:Y-m-d H:i', new AvailableBookingTime],
-        ];
+        return new static(...[
+            'customer_phone_number' => $request->input('customerPhoneNumber'),
+            'customer_name'         => $request->input('customerName'),
+            'scheduled_to'          => $request->date('scheduledTo', 'Y-m-d H:i'),
+        ]);
     }
 }

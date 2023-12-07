@@ -4,20 +4,19 @@ declare(strict_types=1);
 
 namespace App\Domain\Authenticated\Data;
 
-use App\Domain\Common\Rules\BrazilianPhoneNumber;
-use Spatie\LaravelData\Attributes\MapInputName;
-use Spatie\LaravelData\Data;
-use Spatie\LaravelData\Mappers\CamelCaseMapper;
+use Illuminate\Http\Request;
 
-#[MapInputName(CamelCaseMapper::class)]
-class LoginData extends Data
+class LoginData
 {
-    public string $phone_number;
+    public function __construct(
+        public string $phone_number,
+    ) {
+    }
 
-    public static function rules(): array
+    public static function fromRequest(Request $request): static
     {
-        return [
-            'phoneNumber' => ['required', 'string', new BrazilianPhoneNumber],
-        ];
+        return new static(...[
+            'phone_number' => $request->input('phoneNumber'),
+        ]);
     }
 }

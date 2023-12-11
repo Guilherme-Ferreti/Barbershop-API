@@ -13,6 +13,6 @@ class LoginController extends Controller
 {
     public function __invoke(LoginRequest $request)
     {
-        app(Login::class)->handle(LoginData::fromRequest($request));
+        dd(app(Login::class)->handle(LoginData::fromRequest($request)));
     }
 }

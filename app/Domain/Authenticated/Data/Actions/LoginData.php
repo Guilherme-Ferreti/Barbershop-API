@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Authenticated\Data;
+namespace App\Domain\Authenticated\Data\Actions;
 
 use Illuminate\Http\Request;
 

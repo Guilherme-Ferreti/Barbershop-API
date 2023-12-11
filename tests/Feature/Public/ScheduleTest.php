@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
+use App\Domain\Common\Actions\GetBookingCalendar;
 use App\Domain\Common\Models\Customer;
 use App\Domain\Common\Models\Schedule;
-use App\Domain\Public\Actions\GetBookingCalendar;
 
 use function Pest\Laravel\assertDatabaseCount;
 use function Pest\Laravel\assertDatabaseHas;

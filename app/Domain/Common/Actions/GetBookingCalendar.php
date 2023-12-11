@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Public\Actions;
+namespace App\Domain\Common\Actions;
 
+use App\Domain\Common\Data\BookingCalendarData;
+use App\Domain\Common\Data\BookingDayData;
+use App\Domain\Common\Data\BookingTimeData;
+use App\Domain\Common\Data\HolidayData;
 use App\Domain\Common\Enums\BookingDayType;
 use App\Domain\Common\Models\Schedule;
-use App\Domain\Public\Data\BookingCalendarData;
-use App\Domain\Public\Data\BookingDayData;
-use App\Domain\Public\Data\BookingTimeData;
-use App\Domain\Public\Data\HolidayData;
 use Carbon\CarbonImmutable;
 use Carbon\CarbonPeriodImmutable;
 use Illuminate\Support\Carbon;

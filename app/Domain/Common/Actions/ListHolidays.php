@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Public\Actions;
+namespace App\Domain\Common\Actions;
 
-use App\Domain\Public\Data\HolidayData;
+use App\Domain\Common\Data\HolidayData;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;

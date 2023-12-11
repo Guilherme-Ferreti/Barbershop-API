@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Public\Resources;
 
-use App\Domain\Public\Data\BookingDayData;
-use App\Domain\Public\Data\BookingTimeData;
+use App\Domain\Common\Data\BookingDayData;
+use App\Domain\Common\Data\BookingTimeData;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 

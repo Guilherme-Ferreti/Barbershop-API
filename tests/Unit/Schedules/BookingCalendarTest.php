@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use App\Domain\Public\Actions\GetBookingCalendar;
-use App\Domain\Public\Data\BookingDayData;
-use App\Domain\Public\Data\BookingTimeData;
+use App\Domain\Common\Actions\GetBookingCalendar;
+use App\Domain\Common\Data\BookingDayData;
+use App\Domain\Common\Data\BookingTimeData;
 
 use function Pest\Laravel\travelTo;
 

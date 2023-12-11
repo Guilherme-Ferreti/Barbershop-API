@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Public\Data;
+namespace App\Domain\Common\Data;
 
 use Illuminate\Support\Collection;
 

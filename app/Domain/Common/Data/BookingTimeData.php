@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Public\Data;
+namespace App\Domain\Common\Data;
 
 use Illuminate\Support\Carbon;
 
@@ -12,6 +12,5 @@ class BookingTimeData
         public Carbon $date,
         public bool $is_available,
     ) {
-
     }
 }

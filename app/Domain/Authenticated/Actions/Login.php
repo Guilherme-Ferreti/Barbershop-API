@@ -73,7 +73,7 @@ class Login
 
         return [
             $this->customer,
-            static::createJwt(),
+            $this->createJwt(),
         ];
     }
 

@@ -6,7 +6,7 @@ namespace App\Domain\Admin\Data\Actions;
 
 use Illuminate\Http\Request;
 
-class LoginData
+readonly class LoginData
 {
     public function __construct(
         public string $password,

@@ -6,7 +6,7 @@ namespace App\Domain\Common\Data;
 
 use Illuminate\Support\Collection;
 
-class BookingCalendarData
+readonly class BookingCalendarData
 {
     public function __construct(
         public Collection $booking_days,

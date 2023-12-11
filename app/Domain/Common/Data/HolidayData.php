@@ -9,7 +9,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Date;
 
-class HolidayData
+readonly class HolidayData
 {
     public function __construct(
         public Carbon $date,

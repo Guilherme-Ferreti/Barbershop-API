@@ -7,7 +7,7 @@ namespace App\Domain\Public\Data\Actions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
-class StoreScheduleData
+readonly class StoreScheduleData
 {
     public function __construct(
         public string $customer_phone_number,

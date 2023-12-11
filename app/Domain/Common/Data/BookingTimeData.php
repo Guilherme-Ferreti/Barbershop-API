@@ -6,7 +6,7 @@ namespace App\Domain\Common\Data;
 
 use Illuminate\Support\Carbon;
 
-class BookingTimeData
+readonly class BookingTimeData
 {
     public function __construct(
         public Carbon $date,

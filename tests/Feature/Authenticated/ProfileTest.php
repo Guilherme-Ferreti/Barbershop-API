@@ -2,26 +2,28 @@
 
 declare(strict_types=1);
 
-use App\Domain\Authenticated\Actions\Login;
-use App\Domain\Authenticated\Data\Actions\LoginData;
 use App\Domain\Common\Models\Customer;
 
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\assertDatabaseHas;
-use function Pest\Laravel\getJson;
 
 uses()->group('authenticated');
 
-test('jwt authentication works', function () {
+test('a customer profile can be retrieved', function () {
     $customer = Customer::factory()->create();
-
-    [, $jwt] = app(Login::class)->handle(new LoginData($customer->phone_number));
 
     $route = route('authenticated.profile.show');
 
-    getJson($route)->assertUnauthorized();
+    $this->assertAuthenticatedOnly($route, 'get');
 
-    getJson($route, ['Authorization' => "Bearer $jwt"])->assertOk();
+    $response = actingAs($customer)->getJson($route)->assertOk();
+
+    expect($response->json())
+        ->toHaveKeys([
+            'id',
+            'name',
+            'phoneNumber',
+        ]);
 });
 
 test('a customer can update it\'s profile', function () {

@@ -7,7 +7,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 
-function currentUser(): User|Customer
+function currentUser(): User|Customer|null
 {
     return auth()->user();
 }

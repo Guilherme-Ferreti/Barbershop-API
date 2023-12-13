@@ -18,8 +18,15 @@ abstract class TestCase extends BaseTestCase
 
     public function assertOwnerOnly(string $route, string $method = 'post'): void
     {
-        $anotherUser = Customer::factory()->create();
+        $anotherCustomer = Customer::factory()->create();
 
-        $this->actingAs($anotherUser)->{$method . 'Json'}($route)->assertNotFound();
+        $this->actingAs($anotherCustomer)->{$method . 'Json'}($route)->assertNotFound();
+    }
+
+    public function assertAdminOnly(string $route, string $method = 'post'): void
+    {
+        $customer = Customer::factory()->create();
+
+        $this->actingAs($customer)->{$method . 'Json'}($route)->assertUnauthorized();
     }
 }

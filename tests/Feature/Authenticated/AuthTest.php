@@ -2,8 +2,11 @@
 
 declare(strict_types=1);
 
+use App\Domain\Authenticated\Actions\Login;
+use App\Domain\Authenticated\Data\Actions\LoginData;
 use App\Domain\Common\Models\Customer;
 
+use function Pest\Laravel\getJson;
 use function Pest\Laravel\postJson;
 
 uses()->group('authenticated');
@@ -41,4 +44,16 @@ test('a customer cannot login using non-existing phone number', function () {
     ];
 
     postJson(route('authenticated.login'), $payload)->assertUnprocessable();
+});
+
+test('jwt authentication works', function () {
+    $customer = Customer::factory()->create();
+
+    [, $jwt] = app(Login::class)->handle(new LoginData($customer->phone_number));
+
+    $route = route('authenticated.profile.show');
+
+    getJson($route)->assertUnauthorized();
+
+    getJson($route, ['Authorization' => "Bearer $jwt"])->assertOk();
 });

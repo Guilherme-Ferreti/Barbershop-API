@@ -33,6 +33,7 @@ class GetBookingCalendar
         $calendarPeriod = $this->getCalendarPeriod();
 
         $this->schedules = Schedule::query()
+            ->with('customer')
             ->whereDateBetween(
                 'scheduled_to',
                 $calendarPeriod->getStartDate()->format('Y-m-d'),
@@ -111,29 +112,9 @@ class GetBookingCalendar
             ->map(fn (CarbonImmutable $hour) => new BookingTimeData(...[
                 'date'         => Carbon::create($hour),
                 'is_available' => $this->bookingHourIsAvailable($hour, $day),
+                'schedule'     => $this->getScheduleForHour($hour),
             ]))
             ->values();
-    }
-
-    private function bookingHourIsAvailable(CarbonImmutable $hour, CarbonImmutable $day): bool
-    {
-        if (! $this->isWorkingDay($day)) {
-            return false;
-        }
-
-        $hourIsPastTodaysHour = $day->isToday() && now()->greaterThan($hour);
-
-        if ($hourIsPastTodaysHour) {
-            return false;
-        }
-
-        $hourIsBooked = $this->schedules->contains('scheduled_to', $hour->format('Y-m-d H:i:s'));
-
-        if ($hourIsBooked) {
-            return false;
-        }
-
-        return true;
     }
 
     private function getBookingHours(CarbonImmutable $day): Collection
@@ -161,5 +142,31 @@ class GetBookingCalendar
             ...$beforeLunch->toArray(),
             ...$afterLunch->toArray(),
         ]);
+    }
+
+    private function bookingHourIsAvailable(CarbonImmutable $hour, CarbonImmutable $day): bool
+    {
+        if (! $this->isWorkingDay($day)) {
+            return false;
+        }
+
+        $hourIsPastTodaysHour = $day->isToday() && now()->greaterThan($hour);
+
+        if ($hourIsPastTodaysHour) {
+            return false;
+        }
+
+        $hourIsBooked = $this->getScheduleForHour($hour);
+
+        if ($hourIsBooked) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private function getScheduleForHour(CarbonImmutable $hour): ?Schedule
+    {
+        return $this->schedules->firstWhere('scheduled_to', $hour->format('Y-m-d H:i:s'));
     }
 }

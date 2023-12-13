@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Common\Data;
 
+use App\Domain\Common\Models\Schedule;
 use Illuminate\Support\Carbon;
 
 readonly class BookingTimeData
@@ -11,6 +12,7 @@ readonly class BookingTimeData
     public function __construct(
         public Carbon $date,
         public bool $is_available,
+        public ?Schedule $schedule,
     ) {
     }
 }

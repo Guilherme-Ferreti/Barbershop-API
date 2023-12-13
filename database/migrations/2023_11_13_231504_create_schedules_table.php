@@ -16,7 +16,7 @@ return new class extends Migration
     {
         Schema::create('schedules', function (Blueprint $table) {
             $table->ulid('id')->primary();
-            $table->foreignIdFor(Customer::class);
+            $table->foreignIdFor(Customer::class)->nullable();
             $table->timestamp('scheduled_to');
             $table->string('customer_name');
             $table->timestamps();

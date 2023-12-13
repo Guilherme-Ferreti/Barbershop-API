@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Public\Rules;
+namespace App\Domain\Common\Rules;
 
 use App\Domain\Common\Actions\GetBookingCalendar;
 use App\Domain\Common\Data\BookingDayData;

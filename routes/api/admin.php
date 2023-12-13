@@ -6,6 +6,7 @@ use App\Domain\Admin\Controllers\BookingCalendarController;
 use App\Domain\Admin\Controllers\LoginController;
 use App\Domain\Admin\Controllers\PendingScheduleController;
 use App\Domain\Admin\Controllers\ProfileController;
+use App\Domain\Admin\Controllers\ScheduleController;
 use Illuminate\Support\Facades\Route;
 
 Route::name('admin.')
@@ -19,4 +20,6 @@ Route::name('admin.')
         Route::get('/booking-calendar', BookingCalendarController::class)->name('schedules.booking-calendar.show');
 
         Route::delete('/pending-schedules/{pendingSchedule}', [PendingScheduleController::class, 'destroy'])->name('pending-schedules.destroy');
+
+        Route::post('/schedules', [ScheduleController::class, 'store'])->name('schedules.store');
     });

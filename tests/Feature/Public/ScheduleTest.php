@@ -48,7 +48,6 @@ test('a schedule can be created with existing customer', function () {
         'customer_name' => $payload['customerName'],
         'scheduled_to'  => $bookingTime->date->format('Y-m-d H:i:s'),
     ]);
-
 });
 
 test('a schedule can be created with non-exiting customer', function () {

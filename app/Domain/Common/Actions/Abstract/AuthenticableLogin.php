@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
-abstract class BaseLogin
+abstract class AuthenticableLogin // AuthenticateAuthenticable, AuthenticateCustomer
 {
     private ?Authenticatable $authenticable;
 

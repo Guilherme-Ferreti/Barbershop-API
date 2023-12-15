@@ -34,16 +34,15 @@ test('booking calendar creates booking times gaps correctly', function (array $b
             expect($hours)->toEqual($bookingHours);
         });
 })->with([
-    'Opens at 8:20h, lunch at 12:00h, back from lunch at 13:00h, closes 20:00h, 40 minutes gap' => [[
+    'Opens at 8:20h, lunch at 13:00h, back from lunch at 15:00h, closes 20:00h, 40 minutes gap' => [[
         '08:20',
         '09:00',
         '09:40',
         '10:20',
         '11:00',
         '11:40',
+        '12:20',
         '13:00',
-        '13:40',
-        '14:20',
         '15:00',
         '15:40',
         '16:20',
@@ -81,7 +80,7 @@ test('booking calendar sets today\'s booking times as unavailable if current hou
     expect($availableBookingTimes)->toEqual($availableHours);
 
 })->with([
-    'Opens at 8:20h, lunch at 12:00h, back from lunch at 13:00h, closes 20:00h, 40 minutes gap' => [
+    'Opens at 8:20h, lunch at 13:00h, back from lunch at 15:00h, closes 20:00h, 40 minutes gap' => [
         'current hour'      => 19,
         'unavailable hours' => [
             '08:20',
@@ -90,9 +89,8 @@ test('booking calendar sets today\'s booking times as unavailable if current hou
             '10:20',
             '11:00',
             '11:40',
+            '12:20',
             '13:00',
-            '13:40',
-            '14:20',
             '15:00',
             '15:40',
             '16:20',

@@ -119,24 +119,25 @@ class GetBookingCalendar
 
     private function getBookingHours(CarbonImmutable $day): Collection
     {
-        $openingHour         = 8;
-        $openingMinute       = 20;
-        $lunchTimeFromHour   = 12;
-        $lunchTimeFromMinute = 0;
-        $lunchTimeToHour     = 13;
-        $lunchTimeToMinute   = 0;
-        $closingHour         = 20;
-        $closingMinute       = 0;
+        $settings = fn (string $key) => data_get([
+            'opening' => ['hour' => 8, 'minute' => 20],
+            'closing' => ['hour' => 20, 'minute' => 0],
+            'lunch'   => [
+                'from' => ['hour' => 12, 'minute' => 59],
+                'to'   => ['hour' => 15, 'minute' => 0],
+            ],
+            'schedule_gap_in_minutes' => 40,
+        ], $key);
 
         $beforeLunch = CarbonPeriodImmutable::between(
-            start: $day->setHour($openingHour)->setMinute($openingMinute),
-            end: $day->setHour($lunchTimeFromHour)->setMinute($lunchTimeFromMinute)
-        )->minutes(40);
+            start: $day->setHour($settings('opening.hour'))->setMinute($settings('opening.minute')),
+            end: $day->setHour($settings('lunch.from.hour'))->setMinute($settings('lunch.from.minute'))
+        )->minutes($settings('schedule_gap_in_minutes'));
 
         $afterLunch = CarbonPeriodImmutable::between(
-            start: $day->setHour($lunchTimeToHour)->setMinute($lunchTimeToMinute),
-            end: $day->setHour($closingHour)->setMinute($closingMinute)
-        )->minutes(40);
+            start: $day->setHour($settings('lunch.to.hour'))->setMinute($settings('lunch.to.minute')),
+            end: $day->setHour($settings('closing.hour'))->setMinute($settings('closing.minute'))
+        )->minutes($settings('schedule_gap_in_minutes'));
 
         return collect([
             ...$beforeLunch->toArray(),

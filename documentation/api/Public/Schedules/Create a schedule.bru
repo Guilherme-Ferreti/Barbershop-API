@@ -1,0 +1,19 @@
+meta {
+  name: Create a schedule
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/schedules
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "customerPhoneNumber": "5511973968891",
+    "customerName": "Guilherme Ferreti",
+    "scheduledTo": "2023-12-16 19:40"
+  }
+}

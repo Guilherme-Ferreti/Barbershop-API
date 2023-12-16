@@ -1,0 +1,15 @@
+meta {
+  name: Show booking calendar
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/admin/booking-calendar
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}

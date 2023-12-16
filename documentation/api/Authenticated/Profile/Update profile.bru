@@ -1,0 +1,21 @@
+meta {
+  name: Update profile
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{baseUrl}}/auth/me
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "name": "John Doe"
+  }
+}

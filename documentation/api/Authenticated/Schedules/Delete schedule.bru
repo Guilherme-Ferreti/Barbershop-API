@@ -1,0 +1,19 @@
+meta {
+  name: Delete schedule
+  type: http
+  seq: 4
+}
+
+delete {
+  url: {{baseUrl}}/auth/pending-schedules/01hggnhz0zw99rf8k043ftdc41
+  body: none
+  auth: bearer
+}
+
+headers {
+  : 
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}

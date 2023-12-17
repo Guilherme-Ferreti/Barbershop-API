@@ -19,12 +19,12 @@ class ScheduleResource extends JsonResource
             'createdAt'    => formatDate($this->created_at),
             'updatedAt'    => formatDate($this->updated_at),
 
-            $this->mergeWhen($request->routeIs('public.schedules.store'), fn () => [
-                'customer' => [
+            $this->mergeWhen($request->routeIs('public.schedules.store', 'admin.schedules.store'), fn () => [
+                'customer' => $this->when($this->customer, fn () => [
                     'id'          => $this->customer_id,
                     'name'        => $this->customer->name,
                     'phoneNumber' => $this->customer->phone_number,
-                ],
+                ], null),
             ]),
         ];
     }

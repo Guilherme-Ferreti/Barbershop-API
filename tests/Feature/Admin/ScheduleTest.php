@@ -31,12 +31,24 @@ test('an admin can create a schedule without customer phone number', function ()
         'scheduledTo'         => $bookingTime->date->format('Y-m-d H:i'),
     ];
 
-    actingAs($admin)->postJson($route, $payload)->assertCreated();
+    $response = actingAs($admin)->postJson($route, $payload)->assertCreated();
 
     assertDatabaseHas(Schedule::class, [
         'customer_name' => $payload['customerName'],
         'scheduled_to'  => $bookingTime->date->format('Y-m-d H:i:s'),
     ]);
+
+    expect($response->json())
+        ->toHaveKeys([
+            'id',
+            'customerName',
+            'scheduledTo',
+            'isPending',
+            'createdAt',
+            'updatedAt',
+            'customer',
+        ])
+        ->customer->toBeNull();
 });
 
 test('an admin can create a schedule for non-existing customer', function () {
@@ -51,7 +63,7 @@ test('an admin can create a schedule for non-existing customer', function () {
         'scheduledTo'         => $bookingTime->date->format('Y-m-d H:i'),
     ];
 
-    actingAs($admin)->postJson(route('admin.schedules.store'), $payload)->assertCreated();
+    $response = actingAs($admin)->postJson(route('admin.schedules.store'), $payload)->assertCreated();
 
     assertDatabaseHas(Customer::class, [
         'name'         => $payload['customerName'],
@@ -63,6 +75,21 @@ test('an admin can create a schedule for non-existing customer', function () {
         'customer_name' => $payload['customerName'],
         'scheduled_to'  => $bookingTime->date->format('Y-m-d H:i:s'),
     ]);
+
+    expect($response->json())
+        ->toHaveKeys([
+            'id',
+            'customerName',
+            'scheduledTo',
+            'isPending',
+            'createdAt',
+            'updatedAt',
+            'customer' => [
+                'id',
+                'name',
+                'phoneNumber',
+            ],
+        ]);
 });
 
 test('an admin can create a schedule for existing customer', function () {

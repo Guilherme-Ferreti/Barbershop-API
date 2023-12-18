@@ -14,10 +14,10 @@ class ScheduleResource extends JsonResource
         return [
             'id'           => $this->id,
             'customerName' => $this->customer_name,
-            'scheduledTo'  => formatDate($this->scheduled_to, 'Y-m-d H:i'),
+            'scheduledTo'  => format_date($this->scheduled_to, 'Y-m-d H:i'),
             'isPending'    => $this->isPending(),
-            'createdAt'    => formatDate($this->created_at),
-            'updatedAt'    => formatDate($this->updated_at),
+            'createdAt'    => format_date($this->created_at),
+            'updatedAt'    => format_date($this->updated_at),
 
             $this->mergeWhen($request->routeIs('public.schedules.store', 'admin.schedules.store'), fn () => [
                 'customer' => $this->when($this->customer, fn () => [

@@ -18,7 +18,7 @@ class Admin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        abort_unless(auth()->check() && currentUser() instanceof User, Response::HTTP_UNAUTHORIZED, 'Unauthenticated.');
+        abort_unless(auth()->check() && current_user() instanceof User, Response::HTTP_UNAUTHORIZED, 'Unauthenticated.');
 
         return $next($request);
     }

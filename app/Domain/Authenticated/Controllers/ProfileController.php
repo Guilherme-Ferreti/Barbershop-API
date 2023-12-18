@@ -12,13 +12,13 @@ class ProfileController extends Controller
 {
     public function show()
     {
-        return new CustomerResource(currentUser());
+        return new CustomerResource(current_user());
     }
 
     public function update(UpdateProfileRequest $request)
     {
-        currentUser()->update($request->validated());
+        current_user()->update($request->validated());
 
-        return new CustomerResource(currentUser());
+        return new CustomerResource(current_user());
     }
 }

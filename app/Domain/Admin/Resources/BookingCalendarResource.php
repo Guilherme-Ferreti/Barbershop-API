@@ -15,13 +15,13 @@ class BookingCalendarResource extends JsonResource
     {
         return [
             'bookingDays' => $this->booking_days->map(fn (BookingDayData $bookingDay) => [
-                'date'         => formatDate($bookingDay->date, 'Y-m-d'),
+                'date'         => format_date($bookingDay->date, 'Y-m-d'),
                 'types'        => $bookingDay->types,
                 'isWorkingDay' => $bookingDay->is_working_day,
                 'holiday'      => $bookingDay->holiday,
 
                 'bookingTimes' => $bookingDay->booking_times->map(fn (BookingTimeData $bookingTime) => [
-                    'date'        => formatDate($bookingTime->date, 'Y-m-d H:i'),
+                    'date'        => format_date($bookingTime->date, 'Y-m-d H:i'),
                     'isAvailable' => $bookingTime->is_available,
 
                     'schedule' => $this->when($bookingTime->schedule, fn () => [

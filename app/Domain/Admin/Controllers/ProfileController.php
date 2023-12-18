@@ -11,6 +11,6 @@ class ProfileController extends Controller
 {
     public function __invoke()
     {
-        return new UserResource(currentUser());
+        return new UserResource(current_user());
     }
 }

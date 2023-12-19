@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Authenticated\Controllers;
+namespace App\Api\Customer\Controllers;
 
-use App\Domain\Common\Resources\ScheduleResource;
+use App\Api\Customers\Resources\ScheduleResource;
 use App\Http\Controllers\Controller;
 
-class ScheduleController extends Controller
+class ListSchedulesController extends Controller
 {
-    public function index()
+    public function __invoke()
     {
         $schedules = current_user()->schedules()->orderByDesc('created_at')->get();
 

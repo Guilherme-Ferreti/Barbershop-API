@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Authenticated\Controllers;
+namespace App\Api\Customer\Controllers;
 
-use App\Domain\Authenticated\Requests\UpdateProfileRequest;
-use App\Domain\Common\Resources\CustomerResource;
+use App\Api\Customer\Requests\UpdateProfileRequest;
+use App\Api\Customers\Resources\CustomerResource;
 use App\Http\Controllers\Controller;
 
 class ProfileController extends Controller

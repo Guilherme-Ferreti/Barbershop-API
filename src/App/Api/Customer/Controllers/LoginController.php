@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Authenticated\Controllers;
+namespace App\Api\Customer\Controllers;
 
-use App\Domain\Authenticated\Actions\Login;
-use App\Domain\Authenticated\Data\Actions\LoginData;
-use App\Domain\Authenticated\Requests\LoginRequest;
-use App\Domain\Common\Resources\CustomerResource;
+use App\Api\Customer\Requests\LoginRequest;
+use App\Api\Customers\Resources\CustomerResource;
 use App\Http\Controllers\Controller;
+use Domain\Customers\Actions\Login;
+use Domain\Customers\Data\Actions\LoginData;
 
 class LoginController extends Controller
 {

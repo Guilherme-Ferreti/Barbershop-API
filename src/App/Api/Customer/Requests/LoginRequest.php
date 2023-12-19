@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Authenticated\Requests;
+namespace App\Api\Customer\Requests;
 
-use App\Domain\Common\Rules\BrazilianPhoneNumber;
+use Domain\Customers\Rules\BrazilianPhoneNumber;
 use Illuminate\Foundation\Http\FormRequest;
 
 class LoginRequest extends FormRequest

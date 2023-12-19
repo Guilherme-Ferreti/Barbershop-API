@@ -17,6 +17,6 @@ Route::name('authenticated.')
         Route::get('/me', [ProfileController::class, 'show'])->name('profile.show');
         Route::patch('/me', [ProfileController::class, 'update'])->name('profile.update');
 
-        Route::get('/schedules', ScheduleController::class)->name('schedules.index');
-        Route::delete('/pending-schedules/{pendingSchedule}', PendingScheduleController::class)->name('pending-schedules.destroy')->can('destroy', 'pendingSchedule');
+        Route::get('/schedules', [ScheduleController::class, 'index'])->name('schedules.index');
+        Route::delete('/pending-schedules/{pendingSchedule}', [PendingScheduleController::class, 'destroy'])->name('pending-schedules.destroy')->can('destroy', 'pendingSchedule');
     });

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Public\Controllers;
+namespace App\Api\Public\Controllers;
 
 use App\Api\Public\Resources\ShowCustomerResource;
-use App\Http\Controllers\Controller;
 use Domain\Customers\Models\Customer;
+use Support\Http\Controllers\Controller;
 
-class ShowCustomerController extends Controller
+class CustomerController extends Controller
 {
     public function show(Customer $customer)
     {

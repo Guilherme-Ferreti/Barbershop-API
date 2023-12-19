@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Api\Customer\Controllers;
 
 use App\Api\Customer\Requests\UpdateProfileRequest;
-use App\Api\Customers\Resources\CustomerResource;
-use App\Http\Controllers\Controller;
+use App\Api\Customer\Resources\CustomerResource;
+use Support\Http\Controllers\Controller;
 
 class ProfileController extends Controller
 {

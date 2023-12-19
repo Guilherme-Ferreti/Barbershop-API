@@ -6,9 +6,9 @@ namespace App\Api\Admin\Controllers;
 
 use App\Api\Admin\Requests\StoreScheduleRequest;
 use App\Api\Admin\Resources\ScheduleResource;
-use App\Http\Controllers\Controller;
 use Domain\Schedules\Actions\StoreSchedule;
 use Domain\Schedules\Data\Actions\StoreScheduleData;
+use Support\Http\Controllers\Controller;
 
 class ScheduleController extends Controller
 {

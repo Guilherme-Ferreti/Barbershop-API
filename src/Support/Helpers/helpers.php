@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Domain\Customers\Models\Customer;

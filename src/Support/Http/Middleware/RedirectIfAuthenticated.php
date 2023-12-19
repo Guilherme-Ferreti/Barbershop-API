@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Support\Http\Middleware;
 
-use Support\Providers\RouteServiceProvider;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Support\Providers\RouteServiceProvider;
 use Symfony\Component\HttpFoundation\Response;
 
 class RedirectIfAuthenticated

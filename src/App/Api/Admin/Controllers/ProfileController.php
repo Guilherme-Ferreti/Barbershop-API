@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Api\Admin\Controllers;
 
-use App\Domain\Admin\Resources\UserResource;
-use App\Http\Controllers\Controller;
+use App\Api\Admin\Resources\UserResource;
+use Support\Http\Controllers\Controller;
 
 class ProfileController extends Controller
 {

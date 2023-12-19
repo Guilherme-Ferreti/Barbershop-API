@@ -6,9 +6,9 @@ namespace App\Api\Admin\Controllers;
 
 use App\Api\Admin\Requests\LoginRequest;
 use App\Api\Admin\Resources\UserResource;
-use App\Http\Controllers\Controller;
 use Domain\Users\Actions\Login;
 use Domain\Users\Data\Actions\LoginData;
+use Support\Http\Controllers\Controller;
 
 class LoginController extends Controller
 {

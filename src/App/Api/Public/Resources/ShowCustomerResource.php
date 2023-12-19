@@ -16,13 +16,13 @@ class ShowCustomerResource extends JsonResource
             'name'        => $this->name,
             'phoneNumber' => $this->phone_number,
 
-            'pendingSchedule' => [
+            'pendingSchedule' => $this->when($this->pendingSchedule, fn () => [
                 'id'           => $this->pendingSchedule->id,
                 'customerName' => $this->pendingSchedule->customer_name,
                 'scheduledTo'  => format_date($this->pendingSchedule->scheduled_to, 'Y-m-d H:i'),
                 'isPending'    => $this->pendingSchedule->isPending(),
                 'createdAt'    => format_date($this->pendingSchedule->created_at),
-            ],
+            ], null),
         ];
     }
 }

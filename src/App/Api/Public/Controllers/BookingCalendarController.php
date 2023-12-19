@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Api\Public\Controllers;
 
 use App\Api\Public\Resources\BookingCalendarResource;
-use App\Http\Controllers\Controller;
 use Domain\Schedules\Actions\GetBookingCalendar;
+use Support\Http\Controllers\Controller;
 
 class BookingCalendarController extends Controller
 {

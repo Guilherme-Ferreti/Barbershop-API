@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Api\Customer\Controllers;
 
-use App\Api\Customers\Resources\ScheduleResource;
-use App\Http\Controllers\Controller;
+use App\Api\Customer\Resources\ScheduleResource;
+use Support\Http\Controllers\Controller;
 
 class ScheduleController extends Controller
 {

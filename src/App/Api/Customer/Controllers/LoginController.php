@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Api\Customer\Controllers;
 
 use App\Api\Customer\Requests\LoginRequest;
-use App\Api\Customers\Resources\CustomerResource;
-use App\Http\Controllers\Controller;
+use App\Api\Customer\Resources\CustomerResource;
 use Domain\Customers\Actions\Login;
 use Domain\Customers\Data\Actions\LoginData;
+use Support\Http\Controllers\Controller;
 
 class LoginController extends Controller
 {

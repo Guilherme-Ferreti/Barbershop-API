@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 use App\Api\Customer\Controllers\LoginController;
-use App\Api\Customer\Controllers\DestroyPendingScheduleController;
-use App\Api\Customer\Controllers\ListSchedulesController;
+use App\Api\Customer\Controllers\PendingScheduleController;
 use App\Api\Customer\Controllers\ProfileController;
+use App\Api\Customer\Controllers\ScheduleController;
 use Illuminate\Support\Facades\Route;
 
 Route::name('authenticated.')
@@ -17,6 +17,6 @@ Route::name('authenticated.')
         Route::get('/me', [ProfileController::class, 'show'])->name('profile.show');
         Route::patch('/me', [ProfileController::class, 'update'])->name('profile.update');
 
-        Route::get('/schedules', ListSchedulesController::class)->name('schedules.index');
-        Route::delete('/pending-schedules/{pendingSchedule}', DestroyPendingScheduleController::class)->name('pending-schedules.destroy')->can('destroy', 'pendingSchedule');
+        Route::get('/schedules', ScheduleController::class)->name('schedules.index');
+        Route::delete('/pending-schedules/{pendingSchedule}', PendingScheduleController::class)->name('pending-schedules.destroy')->can('destroy', 'pendingSchedule');
     });

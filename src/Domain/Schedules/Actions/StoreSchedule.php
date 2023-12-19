@@ -13,18 +13,25 @@ class StoreSchedule
 {
     public function handle(StoreScheduleData $data): Schedule
     {
-        return DB::transaction(function () use ($data) {
+        DB::beginTransaction();
+
+        if ($data->customer_phone_number) {
             $customer = Customer::firstOrCreate(
                 ['phone_number' => $data->customer_phone_number],
                 ['name' => $data->customer_name],
             );
 
             $customer->pendingSchedule()->delete();
+        }
 
-            return $customer->schedules()->create([
-                'scheduled_to'  => $data->scheduled_to,
-                'customer_name' => $data->customer_name,
-            ]);
-        });
+        $schedule = Schedule::create([
+            'scheduled_to'  => $data->scheduled_to,
+            'customer_name' => $data->customer_name,
+            'customer_id'   => $customer?->id,
+        ]);
+
+        DB::commit();
+
+        return $schedule;
     }
 }

@@ -10,7 +10,7 @@ use Illuminate\Support\Carbon;
 readonly class StoreScheduleData
 {
     public function __construct(
-        public string $customer_phone_number,
+        public ?string $customer_phone_number,
         public string $customer_name,
         public Carbon $scheduled_to,
     ) {

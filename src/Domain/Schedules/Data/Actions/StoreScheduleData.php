@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Public\Data\Actions;
+namespace Domain\Schedules\Data\Actions;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;

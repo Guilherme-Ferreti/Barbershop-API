@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Public\Controllers;
+namespace App\Api\Public\Controllers;
 
-use App\Domain\Common\Actions\GetBookingCalendar;
-use App\Domain\Public\Resources\BookingCalendarResource;
+use App\Api\Public\Resources\BookingCalendarResource;
 use App\Http\Controllers\Controller;
+use Domain\Schedules\Actions\GetBookingCalendar;
 
 class BookingCalendarController extends Controller
 {

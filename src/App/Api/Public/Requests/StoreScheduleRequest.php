@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Public\Requests;
+namespace App\Api\Public\Requests;
 
-use App\Domain\Common\Rules\AvailableBookingTime;
-use App\Domain\Common\Rules\BrazilianPhoneNumber;
+use Domain\Customers\Rules\BrazilianPhoneNumber;
+use Domain\Schedules\Rules\AvailableBookingTime;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreScheduleRequest extends FormRequest

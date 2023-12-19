@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Public\Actions;
+namespace Domain\Schedules\Actions;
 
-use App\Domain\Common\Models\Customer;
-use App\Domain\Common\Models\Schedule;
-use App\Domain\Public\Data\Actions\StoreScheduleData;
+use Domain\Customers\Models\Customer;
+use Domain\Schedules\Data\Actions\StoreScheduleData;
+use Domain\Schedules\Models\Schedule;
 use Illuminate\Support\Facades\DB;
 
 class StoreSchedule
@@ -18,9 +18,9 @@ class StoreSchedule
                 ['phone_number' => $data->customer_phone_number],
                 ['name' => $data->customer_name],
             );
-    
+
             $customer->pendingSchedule()->delete();
-    
+
             return $customer->schedules()->create([
                 'scheduled_to'  => $data->scheduled_to,
                 'customer_name' => $data->customer_name,

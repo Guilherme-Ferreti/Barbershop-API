@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Domain\Public\Controllers;
 
-use App\Domain\Common\Models\Customer;
-use App\Domain\Public\Resources\CustomerShowResource;
+use App\Api\Public\Resources\ShowCustomerResource;
 use App\Http\Controllers\Controller;
+use Domain\Customers\Models\Customer;
 
-class CustomerController extends Controller
+class ShowCustomerController extends Controller
 {
     public function show(Customer $customer)
     {
         $customer->load('pendingSchedule');
 
-        return new CustomerShowResource($customer);
+        return new ShowCustomerResource($customer);
     }
 }

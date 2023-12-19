@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Public\Resources;
+namespace App\Api\Public\Resources;
 
-use App\Domain\Common\Data\BookingDayData;
-use App\Domain\Common\Data\BookingTimeData;
+use Domain\Schedules\Data\BookingDayData;
+use Domain\Schedules\Data\BookingTimeData;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 

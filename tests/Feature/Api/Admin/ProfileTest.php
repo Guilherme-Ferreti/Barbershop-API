@@ -2,21 +2,16 @@
 
 declare(strict_types=1);
 
-use Domain\Users\Models\User;
+use Domain\Barbers\Models\Barber;
 
 use function Pest\Laravel\actingAs;
 
 uses()->group('admin');
 
-test('an user profile can be retrieved', function () {
-    $user = User::factory()->create();
+test('a barber profile can be retrieved', function () {
+    $barber = Barber::factory()->create();
 
-    $route = route('api.admin.profile.show');
-
-    assertAuthenticatedOnly($route, 'get');
-    assertAdminOnly($route, 'get');
-
-    $response = actingAs($user)->getJson($route)->assertOk();
+    $response = actingAs($barber)->getJson(route('api.admin.profile.show'))->assertOk();
 
     expect($response->json())
         ->toHaveKeys([

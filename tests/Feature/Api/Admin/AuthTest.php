@@ -2,17 +2,19 @@
 
 declare(strict_types=1);
 
-use Domain\Users\Actions\Login;
-use Domain\Users\Data\Actions\LoginData;
-use Domain\Users\Models\User;
+use Domain\Barbers\Actions\Login;
+use Domain\Barbers\Data\Actions\LoginData;
+use Domain\Barbers\Models\Barber;
+use Domain\Customers\Models\Customer;
 
+use function Pest\Laravel\actingAs;
 use function Pest\Laravel\getJson;
 use function Pest\Laravel\postJson;
 
 uses()->group('admin');
 
-test('an user can login', function () {
-    $user = User::factory()->create();
+test('a barber can login', function () {
+    $barber = Barber::factory()->create();
 
     $payload = [
         'password' => 'password',
@@ -28,12 +30,12 @@ test('an user can login', function () {
                 'name',
             ],
         ])
-        ->user->id->toBe($user->id)
-        ->user->name->toBe($user->name);
+        ->user->id->toBe($barber->id)
+        ->user->name->toBe($barber->name);
 });
 
-test('an user cannot login using non-existing password', function () {
-    User::factory(10)->create();
+test('a barber cannot login using non-existing password', function () {
+    Barber::factory(10)->create();
 
     $payload = [
         'password' => fake()->words(asText: true),
@@ -43,7 +45,7 @@ test('an user cannot login using non-existing password', function () {
 });
 
 test('jwt authentication works', function () {
-    User::factory()->create();
+    Barber::factory()->create();
 
     [, $jwt] = app(Login::class)->handle(new LoginData('password'));
 
@@ -52,4 +54,12 @@ test('jwt authentication works', function () {
     getJson($route)->assertUnauthorized();
 
     getJson($route, ['Authorization' => "Bearer $jwt"])->assertOk();
+});
+
+test('admin area is accessable only for authenticated barbers', function () {
+    $route = route('api.admin.profile.show');
+
+    getJson($route)->assertUnauthorized();
+    actingAs(Customer::factory()->create())->getJson($route)->assertUnauthorized();
+    actingAs(Barber::factory()->create())->getJson($route)->assertOk();
 });

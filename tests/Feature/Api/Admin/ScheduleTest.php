@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
+use Domain\Barbers\Models\Barber;
 use Domain\Customers\Models\Customer;
 use Domain\Schedules\Actions\GetBookingCalendar;
 use Domain\Schedules\Models\Schedule;
-use Domain\Users\Models\User;
 
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\assertDatabaseCount;
@@ -15,15 +15,10 @@ use function Pest\Laravel\assertModelMissing;
 
 uses()->group('admin');
 
-test('an user can create a schedule without customer phone number', function () {
-    $user = User::factory()->create();
+test('a barber can create a schedule without customer phone number', function () {
+    $barber = Barber::factory()->create();
 
     $bookingTime = app(GetBookingCalendar::class)->handle()->firstAvailableBookingTime();
-
-    $route = route('api.admin.schedules.store');
-
-    assertAuthenticatedOnly($route, 'post');
-    assertAdminOnly($route, 'post');
 
     $payload = [
         'customerName'        => fake()->name(),
@@ -31,7 +26,7 @@ test('an user can create a schedule without customer phone number', function () 
         'scheduledTo'         => $bookingTime->date->format('Y-m-d H:i'),
     ];
 
-    $response = actingAs($user)->postJson($route, $payload)->assertCreated();
+    $response = actingAs($barber)->postJson(route('api.admin.schedules.store'), $payload)->assertCreated();
 
     assertDatabaseHas(Schedule::class, [
         'customer_name' => $payload['customerName'],
@@ -51,8 +46,8 @@ test('an user can create a schedule without customer phone number', function () 
         ->customer->toBeNull();
 });
 
-test('an user can create a schedule for non-existing customer', function () {
-    $user     = User::factory()->create();
+test('a barber can create a schedule for non-existing customer', function () {
+    $barber   = Barber::factory()->create();
     $customer = Customer::factory()->make();
 
     $bookingTime = app(GetBookingCalendar::class)->handle()->firstAvailableBookingTime();
@@ -63,7 +58,7 @@ test('an user can create a schedule for non-existing customer', function () {
         'scheduledTo'         => $bookingTime->date->format('Y-m-d H:i'),
     ];
 
-    $response = actingAs($user)->postJson(route('api.admin.schedules.store'), $payload)->assertCreated();
+    $response = actingAs($barber)->postJson(route('api.admin.schedules.store'), $payload)->assertCreated();
 
     assertDatabaseHas(Customer::class, [
         'name'         => $payload['customerName'],
@@ -92,8 +87,8 @@ test('an user can create a schedule for non-existing customer', function () {
         ]);
 });
 
-test('an user can create a schedule for existing customer', function () {
-    $user     = User::factory()->create();
+test('a barber can create a schedule for existing customer', function () {
+    $barber   = Barber::factory()->create();
     $customer = Customer::factory()->create();
 
     $bookingTime = app(GetBookingCalendar::class)->handle()->firstAvailableBookingTime();
@@ -104,7 +99,7 @@ test('an user can create a schedule for existing customer', function () {
         'scheduledTo'         => $bookingTime->date->format('Y-m-d H:i'),
     ];
 
-    actingAs($user)->postJson(route('api.admin.schedules.store'), $payload)->assertCreated();
+    actingAs($barber)->postJson(route('api.admin.schedules.store'), $payload)->assertCreated();
 
     assertDatabaseCount(Customer::class, 1);
 
@@ -115,27 +110,20 @@ test('an user can create a schedule for existing customer', function () {
     ]);
 });
 
-test('an user can delete a pending schedule', function () {
-    $user            = User::factory()->create();
+test('a barber can delete a pending schedule', function () {
+    $barber          = Barber::factory()->create();
     $pendingSchedule = Schedule::factory()->pending()->for(Customer::factory())->create();
 
-    $route = route('api.admin.pending-schedules.destroy', $pendingSchedule);
-
-    assertAuthenticatedOnly($route, 'delete');
-    assertAdminOnly($route, 'delete');
-
-    actingAs($user)->deleteJson($route)->assertNoContent();
+    actingAs($barber)->deleteJson(route('api.admin.pending-schedules.destroy', $pendingSchedule))->assertNoContent();
 
     assertModelMissing($pendingSchedule);
 });
 
-test('an user cannot delete a completed schedule', function () {
-    $user            = User::factory()->create();
+test('a barber cannot delete a completed schedule', function () {
+    $barber          = Barber::factory()->create();
     $pendingSchedule = Schedule::factory()->completed()->for(Customer::factory())->create();
 
-    $route = route('api.admin.pending-schedules.destroy', $pendingSchedule);
-
-    actingAs($user)->deleteJson($route)->assertNotFound();
+    actingAs($barber)->deleteJson(route('api.admin.pending-schedules.destroy', $pendingSchedule))->assertNotFound();
 
     assertModelExists($pendingSchedule);
 });

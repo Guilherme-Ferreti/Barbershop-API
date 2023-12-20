@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use Domain\Barbers\Models\Barber;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
 
@@ -18,9 +18,10 @@ class AdminSeeder extends Seeder
         $admins = Storage::json('administrators.json');
 
         foreach ($admins as $admin) {
-            User::factory()->create([
+            Barber::factory()->create([
                 'name'     => $admin['name'],
                 'password' => $admin['password'],
+                'is_admin' => true,
             ]);
         }
     }

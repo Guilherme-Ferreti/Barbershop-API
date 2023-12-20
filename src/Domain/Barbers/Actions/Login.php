@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Domain\Users\Actions;
+namespace Domain\Barbers\Actions;
 
-use Domain\Users\Models\User;
+use Domain\Barbers\Models\Barber;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Hash;
 use Support\Actions\AuthenticableLogin;
@@ -14,9 +14,9 @@ class Login extends AuthenticableLogin
 {
     protected function authenticate($data): ?Authenticatable
     {
-        return User::query()
+        return Barber::query()
             ->get()
-            ->filter(fn (User $user) => Hash::check($data->password, $user->password))
+            ->filter(fn (Barber $barber) => Hash::check($data->password, $barber->password))
             ?->first();
     }
 
@@ -27,6 +27,6 @@ class Login extends AuthenticableLogin
 
     protected function authType(): AuthType
     {
-        return AuthType::ADMIN;
+        return AuthType::BARBER;
     }
 }

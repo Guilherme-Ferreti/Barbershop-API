@@ -4,29 +4,32 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
-use Domain\Users\Models\User;
+use Domain\Barbers\Models\Barber;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Domain\Users\Models\User>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Domain\Barbers\Models\Barber>
  */
-class UserFactory extends Factory
+class BarberFactory extends Factory
 {
-    protected $model = User::class;
+    protected $model = Barber::class;
 
     protected static ?string $password;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         return [
             'name'     => fake()->name(),
             'password' => static::$password ??= Hash::make('password'),
+            'is_admin' => false,
         ];
+    }
+
+    public function admin(): static
+    {
+        return $this->state(fn () => [
+            'is_admin' => true,
+        ]);
     }
 }

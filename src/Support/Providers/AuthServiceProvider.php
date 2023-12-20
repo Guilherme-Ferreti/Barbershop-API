@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace Support\Providers;
 
-// use Illuminate\Support\Facades\Gate;
-
-use Domain\Customers\Models\Customer;
-use Domain\Users\Models\User;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -41,11 +37,7 @@ class AuthServiceProvider extends ServiceProvider
 
                 $authType = AuthType::from($jwt->type);
 
-                $model = $authType === AuthType::ADMIN
-                    ? User::class
-                    : Customer::class;
-
-                return $model::find($jwt->user->id);
+                return $authType->modelClass()::find($jwt->user->id);
             } catch (\Exception) {
                 return null;
             }

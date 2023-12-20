@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Domain\Users\Models;
+namespace Domain\Barbers\Models;
 
-use Database\Factories\UserFactory;
+use Database\Factories\BarberFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class Barber extends Authenticatable
 {
     use HasFactory, HasUlids;
 
@@ -24,10 +24,11 @@ class User extends Authenticatable
 
     protected $casts = [
         'password' => 'hashed',
+        'is_admin' => 'boolean',
     ];
 
-    protected static function newFactory(): UserFactory
+    protected static function newFactory(): BarberFactory
     {
-        return new UserFactory;
+        return new BarberFactory;
     }
 }

@@ -68,10 +68,3 @@ function assertOwnerOnly(string $route, string $method = 'post'): void
 
     actingAs($anotherCustomer)->{$method . 'Json'}($route)->assertNotFound();
 }
-
-function assertAdminOnly(string $route, string $method = 'post'): void
-{
-    $customer = Customer::factory()->create();
-
-    actingAs($customer)->{$method . 'Json'}($route)->assertUnauthorized();
-}

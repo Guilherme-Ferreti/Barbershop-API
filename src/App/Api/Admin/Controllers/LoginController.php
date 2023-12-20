@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Api\Admin\Controllers;
 
 use App\Api\Admin\Requests\LoginRequest;
-use App\Api\Admin\Resources\UserResource;
-use Domain\Users\Actions\Login;
-use Domain\Users\Data\Actions\LoginData;
+use App\Api\Admin\Resources\BarberResource;
+use Domain\Barbers\Actions\Login;
+use Domain\Barbers\Data\Actions\LoginData;
 use Support\Http\Controllers\Controller;
 
 class LoginController extends Controller
@@ -17,7 +17,7 @@ class LoginController extends Controller
         [$user, $token] = app(Login::class)->handle(LoginData::fromRequest($request));
 
         return response()->json([
-            'user'        => new UserResource($user),
+            'user'        => new BarberResource($user),
             'accessToken' => $token,
         ]);
     }

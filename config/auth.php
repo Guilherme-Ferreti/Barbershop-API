@@ -69,7 +69,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model'  => Domain\Users\Models\User::class,
+            'model'  => Domain\Barbers\Models\Barber::class,
         ],
 
         // 'users' => [

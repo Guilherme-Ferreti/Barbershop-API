@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Domain\Users\Data\Actions;
+namespace Domain\Barbers\Data\Actions;
 
 use Illuminate\Http\Request;
 

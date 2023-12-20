@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Api\Public\Controllers;
 
 use App\Api\Public\Requests\StoreScheduleRequest;
-use App\Api\Public\Resources\StoreScheduleResource;
+use App\Api\Public\Resources\ScheduleResource;
 use Domain\Schedules\Actions\StoreSchedule;
 use Domain\Schedules\Data\Actions\StoreScheduleData;
 use Support\Http\Controllers\Controller;
@@ -16,6 +16,6 @@ class ScheduleController extends Controller
     {
         $schedule = app(StoreSchedule::class)->handle(StoreScheduleData::fromRequest($request));
 
-        return new StoreScheduleResource($schedule);
+        return new ScheduleResource($schedule);
     }
 }

@@ -15,6 +15,8 @@ class StoreSchedule
     {
         DB::beginTransaction();
 
+        $customer = null;
+
         if ($data->customer_phone_number) {
             $customer = Customer::firstOrCreate(
                 ['phone_number' => $data->customer_phone_number],

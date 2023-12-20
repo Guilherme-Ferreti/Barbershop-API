@@ -2,14 +2,22 @@
 
 declare(strict_types=1);
 
-use App\Domain\Common\Enums\BookingDayType;
+use Domain\Schedules\Enums\BookingDayType;
+use Domain\Users\Models\User;
 
-use function Pest\Laravel\getJson;
+use function Pest\Laravel\actingAs;
 
-uses()->group('schedules');
+uses()->group('admin');
 
 test('the booking calendar can be retrieved', function () {
-    $response = getJson(route('public.schedules.booking-calendar.show'))->assertOk();
+    $user = User::factory()->create();
+
+    $route = route('api.admin.schedules.booking-calendar');
+
+    assertAuthenticatedOnly($route, 'get');
+    assertAdminOnly($route, 'get');
+
+    $response = actingAs($user)->getJson($route)->assertOk();
 
     expect($response->json())
         ->toHaveKeys([
@@ -19,7 +27,7 @@ test('the booking calendar can be retrieved', function () {
                 'isWorkingDay',
                 'holiday',
                 'bookingTimes' => [[
-                    'date', 'isAvailable',
+                    'date', 'isAvailable', 'schedule',
                 ]],
             ]],
         ])

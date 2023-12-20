@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-use App\Domain\Common\Models\Customer;
+use Domain\Customers\Models\Customer;
 
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\assertDatabaseHas;
 
-uses()->group('authenticated');
+uses()->group('customer');
 
 test('a customer profile can be retrieved', function () {
     $customer = Customer::factory()->create();
 
-    $route = route('authenticated.profile.show');
+    $route = route('api.customer.profile.show');
 
-    $this->assertAuthenticatedOnly($route, 'get');
+    assertAuthenticatedOnly($route, 'get');
 
     $response = actingAs($customer)->getJson($route)->assertOk();
 
@@ -33,9 +33,9 @@ test('a customer can update it\'s profile', function () {
         'name' => fake()->name(),
     ];
 
-    $route = route('authenticated.profile.update');
+    $route = route('api.customer.profile.update');
 
-    $this->assertAuthenticatedOnly($route, 'patch');
+    assertAuthenticatedOnly($route, 'patch');
 
     actingAs($customer)->patchJson($route, $payload)->assertOk();
 

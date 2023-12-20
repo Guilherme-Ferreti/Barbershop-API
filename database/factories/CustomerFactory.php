@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Database\Factories\Customers;
+namespace Database\Factories;
 
-use App\Domain\Common\Models\Customer;
+use Domain\Customers\Models\Customer;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Domain\Common\Models\Customer>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Domain\Customers\Models\Customer>
  */
 class CustomerFactory extends Factory
 {

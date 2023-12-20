@@ -2,8 +2,12 @@
 
 declare(strict_types=1);
 
+use Domain\Customers\Models\Customer;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Http;
+
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\json;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,7 +57,21 @@ expect()->extend('toBeDateFormat', function (string $format) {
 |
 */
 
-function something()
+function assertAuthenticatedOnly(string $route, string $method = 'post'): void
 {
-    // ..
+    json($method, $route)->assertUnauthorized();
+}
+
+function assertOwnerOnly(string $route, string $method = 'post'): void
+{
+    $anotherCustomer = Customer::factory()->create();
+
+    actingAs($anotherCustomer)->{$method . 'Json'}($route)->assertNotFound();
+}
+
+function assertAdminOnly(string $route, string $method = 'post'): void
+{
+    $customer = Customer::factory()->create();
+
+    actingAs($customer)->{$method . 'Json'}($route)->assertUnauthorized();
 }

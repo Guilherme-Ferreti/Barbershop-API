@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Domain\Schedules\Models;
 
-use Database\Factories\Schedules\ScheduleFactory;
+use Database\Factories\ScheduleFactory;
 use Domain\Customers\Models\Customer;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;

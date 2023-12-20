@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Api\Public\Controllers;
 
-use App\Api\Public\Resources\ShowCustomerResource;
+use App\Api\Public\Resources\CustomerResource;
 use Domain\Customers\Models\Customer;
 use Support\Http\Controllers\Controller;
 
@@ -14,6 +14,6 @@ class CustomerController extends Controller
     {
         $customer->load('pendingSchedule');
 
-        return new ShowCustomerResource($customer);
+        return new CustomerResource($customer);
     }
 }

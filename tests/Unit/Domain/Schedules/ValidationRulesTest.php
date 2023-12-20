@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Domain\Common\Rules\BrazilianPhoneNumber;
+use Domain\Customers\Rules\BrazilianPhoneNumber;
 use Illuminate\Support\Facades\Validator;
 
 uses()->group('validation-rules');

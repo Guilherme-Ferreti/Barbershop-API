@@ -18,6 +18,12 @@ class ScheduleResource extends JsonResource
             'isPending'    => $this->isPending(),
             'createdAt'    => format_date($this->created_at),
             'updatedAt'    => format_date($this->updated_at),
+
+            'customer' => $this->when($this->customer, fn () => [
+                'id'          => $this->customer_id,
+                'name'        => $this->customer->name,
+                'phoneNumber' => $this->customer->phone_number,
+            ], null),
         ];
     }
 }

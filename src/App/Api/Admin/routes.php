@@ -17,7 +17,7 @@ Route::name('admin.')
 
         Route::get('/me', ProfileController::class)->name('profile.show');
 
-        Route::get('/booking-calendar', BookingCalendarController::class)->name('schedules.booking-calendar.show');
+        Route::get('/booking-calendar', BookingCalendarController::class)->name('schedules.booking-calendar');
 
         Route::delete('/pending-schedules/{pendingSchedule}', [PendingScheduleController::class, 'destroy'])->name('pending-schedules.destroy');
 

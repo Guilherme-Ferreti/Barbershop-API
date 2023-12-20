@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use App\Domain\Common\Actions\GetBookingCalendar;
-use App\Domain\Common\Models\Customer;
-use App\Domain\Common\Models\Schedule;
+use Domain\Customers\Models\Customer;
+use Domain\Schedules\Actions\GetBookingCalendar;
+use Domain\Schedules\Models\Schedule;
 
 use function Pest\Laravel\assertDatabaseCount;
 use function Pest\Laravel\assertDatabaseHas;
@@ -12,9 +12,9 @@ use function Pest\Laravel\assertModelMissing;
 use function Pest\Laravel\postJson;
 use function Pest\Laravel\travelTo;
 
-uses()->group('schedules');
+uses()->group('public');
 
-test('a schedule can be created with existing customer', function () {
+test('a schedule can be created for an existing customer', function () {
     $customer = Customer::factory()->create();
 
     $bookingTime = app(GetBookingCalendar::class)->handle()->firstAvailableBookingTime();
@@ -25,7 +25,7 @@ test('a schedule can be created with existing customer', function () {
         'scheduledTo'         => $bookingTime->date->format('Y-m-d H:i'),
     ];
 
-    $response = postJson(route('public.schedules.store'), $payload)->assertCreated();
+    $response = postJson(route('api.public.schedules.store'), $payload)->assertCreated();
 
     expect($response->json())
         ->toHaveKeys([
@@ -50,7 +50,7 @@ test('a schedule can be created with existing customer', function () {
     ]);
 });
 
-test('a schedule can be created with non-exiting customer', function () {
+test('a schedule can be created for a non-exiting customer', function () {
     $customer = Customer::factory()->makeOne();
 
     $bookingTime = app(GetBookingCalendar::class)->handle()->firstAvailableBookingTime();
@@ -61,7 +61,7 @@ test('a schedule can be created with non-exiting customer', function () {
         'scheduledTo'         => $bookingTime->date->format('Y-m-d H:i'),
     ];
 
-    postJson(route('public.schedules.store'), $payload)->assertCreated();
+    postJson(route('api.public.schedules.store'), $payload)->assertCreated();
 
     assertDatabaseCount(Customer::class, 1);
 
@@ -79,7 +79,7 @@ test('a schedule can be created with non-exiting customer', function () {
     ]);
 });
 
-test('a schedule cannot be created if date is already in use', function () {
+test('a schedule cannot be created if schedule date is already in booked', function () {
     $bookingTime = app(GetBookingCalendar::class)->handle()->firstAvailableBookingTime();
 
     $schedule = Schedule::factory()->create([
@@ -94,12 +94,12 @@ test('a schedule cannot be created if date is already in use', function () {
         'scheduledTo'         => $schedule->scheduled_to->format('Y-m-d H:i'),
     ];
 
-    postJson(route('public.schedules.store'), $payload)
+    postJson(route('api.public.schedules.store'), $payload)
         ->assertUnprocessable()
         ->assertInvalid('scheduledTo');
 });
 
-test('a schedule cannot be created if scheduled to is before booking hour', function () {
+test('a schedule cannot be created if scheduled to field is before booking hour', function () {
     travelTo(now()->startOfWeek());
 
     $bookingTime = app(GetBookingCalendar::class)->handle()->firstAvailableBookingTime();
@@ -114,12 +114,12 @@ test('a schedule cannot be created if scheduled to is before booking hour', func
         'scheduledTo'         => $bookingTime->date->format('Y-m-d H:i'),
     ];
 
-    postJson(route('public.schedules.store'), $payload)
+    postJson(route('api.public.schedules.store'), $payload)
         ->assertUnprocessable()
         ->assertInvalid('scheduledTo');
 });
 
-test('a pending schedule is replaced when customer creates a new one', function () {
+test('a pending schedule is deleted when customer creates a new one', function () {
     $customer = Customer::factory()->create();
 
     $pendingSchedule = Schedule::factory()->pending()->for($customer)->create();
@@ -132,7 +132,7 @@ test('a pending schedule is replaced when customer creates a new one', function 
         'scheduledTo'         => $bookingTime->date->format('Y-m-d H:i'),
     ];
 
-    postJson(route('public.schedules.store'), $payload)->assertCreated();
+    postJson(route('api.public.schedules.store'), $payload)->assertCreated();
 
     assertModelMissing($pendingSchedule);
 

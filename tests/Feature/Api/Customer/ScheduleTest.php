@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-use App\Domain\Common\Models\Customer;
-use App\Domain\Common\Models\Schedule;
+use Domain\Customers\Models\Customer;
+use Domain\Schedules\Models\Schedule;
 
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\assertModelExists;
 use function Pest\Laravel\assertModelMissing;
 
-uses()->group('authenticated');
+uses()->group('customer');
 
 test('a customer\'s schedules can be retrieved', function () {
     $customer = Customer::factory()
@@ -17,9 +17,9 @@ test('a customer\'s schedules can be retrieved', function () {
         ->has(Schedule::factory(3)->completed())
         ->create();
 
-    $route = route('authenticated.schedules.index');
+    $route = route('api.customer.schedules.index');
 
-    $this->assertAuthenticatedOnly($route, 'get');
+    assertAuthenticatedOnly($route, 'get');
 
     $response = actingAs($customer)->getJson($route)->assertOk();
 
@@ -49,10 +49,10 @@ test('a customer\'s schedules can be retrieved', function () {
 test('a customer can delete a pending schedule', function () {
     $schedule = Schedule::factory()->pending()->for(Customer::factory())->create();
 
-    $route = route('authenticated.pending-schedules.destroy', $schedule);
+    $route = route('api.customer.pending-schedules.destroy', $schedule);
 
-    $this->assertAuthenticatedOnly($route, 'delete');
-    $this->assertOwnerOnly($route, 'delete');
+    assertAuthenticatedOnly($route, 'delete');
+    assertOwnerOnly($route, 'delete');
 
     actingAs($schedule->customer)->deleteJson($route)->assertNoContent();
 
@@ -62,7 +62,7 @@ test('a customer can delete a pending schedule', function () {
 test('a customer cannot delete other customers\'s pending schedules', function () {
     $schedule = Schedule::factory()->pending()->for(Customer::factory())->create();
 
-    $route = route('authenticated.pending-schedules.destroy', $schedule);
+    $route = route('api.customer.pending-schedules.destroy', $schedule);
 
     actingAs(Customer::factory()->create())->deleteJson($route)->assertNotFound();
 
@@ -72,7 +72,7 @@ test('a customer cannot delete other customers\'s pending schedules', function (
 test('a customer completed schedule cannot be deleted', function () {
     $schedule = Schedule::factory()->completed()->for(Customer::factory())->create();
 
-    $route = route('authenticated.pending-schedules.destroy', $schedule);
+    $route = route('api.customer.pending-schedules.destroy', $schedule);
 
     actingAs($schedule->customer)->deleteJson($route)->assertNotFound();
 

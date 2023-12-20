@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-use App\Domain\Authenticated\Actions\Login;
-use App\Domain\Authenticated\Data\Actions\LoginData;
-use App\Domain\Common\Models\Customer;
+use Domain\Customers\Actions\Login;
+use Domain\Customers\Data\Actions\LoginData;
+use Domain\Customers\Models\Customer;
 
 use function Pest\Laravel\getJson;
 use function Pest\Laravel\postJson;
 
-uses()->group('authenticated');
+uses()->group('customer');
 
 test('a customer can login', function () {
     $customer = Customer::factory()->create();
@@ -18,7 +18,7 @@ test('a customer can login', function () {
         'phoneNumber' => $customer->phone_number,
     ];
 
-    $response = postJson(route('authenticated.login'), $payload)->assertOk();
+    $response = postJson(route('api.customer.login'), $payload)->assertOk();
 
     expect($response->json())
         ->toHaveKeys([
@@ -34,7 +34,7 @@ test('a customer can login', function () {
         ->customer->phoneNumber->toBe($customer->phone_number);
 });
 
-test('a customer cannot login using non-existing phone number', function () {
+test('a customer cannot login using wrong phone number', function () {
     Customer::factory(10)->create();
 
     $customer = Customer::factory()->make();
@@ -43,7 +43,7 @@ test('a customer cannot login using non-existing phone number', function () {
         'phoneNumber' => $customer->phone_number,
     ];
 
-    postJson(route('authenticated.login'), $payload)->assertUnprocessable();
+    postJson(route('api.customer.login'), $payload)->assertUnprocessable();
 });
 
 test('jwt authentication works', function () {
@@ -51,7 +51,7 @@ test('jwt authentication works', function () {
 
     [, $jwt] = app(Login::class)->handle(new LoginData($customer->phone_number));
 
-    $route = route('authenticated.profile.show');
+    $route = route('api.customer.profile.show');
 
     getJson($route)->assertUnauthorized();
 

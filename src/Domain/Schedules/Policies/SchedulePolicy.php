@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Common\Policies;
+namespace Domain\Schedules\Policies;
 
-use App\Domain\Common\Models\Customer;
-use App\Domain\Common\Models\Schedule;
-use App\Models\User;
+use Domain\Customers\Models\Customer;
+use Domain\Schedules\Models\Schedule;
+use Domain\Users\Models\User;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Foundation\Auth\User as Authenticable;
 

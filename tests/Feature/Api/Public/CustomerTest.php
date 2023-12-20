@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-use App\Domain\Common\Models\Customer;
-use App\Domain\Common\Models\Schedule;
+use Domain\Customers\Models\Customer;
+use Domain\Schedules\Models\Schedule;
 
 use function Pest\Laravel\getJson;
 
-uses()->group('customers');
+uses()->group('public');
 
 test('a customer can be retrieved by phone number', function () {
     $customer = Customer::factory()
@@ -15,7 +15,7 @@ test('a customer can be retrieved by phone number', function () {
         ->has(Schedule::factory(3)->completed())
         ->create();
 
-    $route = route('public.customers.show', $customer->phone_number);
+    $route = route('api.public.customers.show', $customer->phone_number);
 
     $response = getJson($route)->assertOk();
 
@@ -42,7 +42,7 @@ test('a customer can be retrieved by phone number', function () {
 test('a customer cannot be found using non-existing phone number', function () {
     Customer::factory(5)->create();
 
-    $route = route('public.customers.show', Customer::factory()->make()->phone_number);
+    $route = route('api.public.customers.show', Customer::factory()->make()->phone_number);
 
     getJson($route)->assertNotFound();
 });

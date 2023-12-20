@@ -7,7 +7,7 @@ namespace App\Api\Public\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ShowCustomerResource extends JsonResource
+class CustomerResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
@@ -22,6 +22,7 @@ class ShowCustomerResource extends JsonResource
                 'scheduledTo'  => format_date($this->pendingSchedule->scheduled_to, 'Y-m-d H:i'),
                 'isPending'    => $this->pendingSchedule->isPending(),
                 'createdAt'    => format_date($this->pendingSchedule->created_at),
+                'updatedAt'    => format_date($this->pendingSchedule->updated_at),
             ], null),
         ];
     }

@@ -8,7 +8,7 @@ use App\Api\Customer\Controllers\ProfileController;
 use App\Api\Customer\Controllers\ScheduleController;
 use Illuminate\Support\Facades\Route;
 
-Route::name('authenticated.')
+Route::name('customer.')
     ->prefix('/auth')
     ->middleware('auth')
     ->group(function () {

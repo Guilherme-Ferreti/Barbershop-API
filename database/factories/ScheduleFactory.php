@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Database\Factories\Schedules;
+namespace Database\Factories;
 
-use App\Domain\Common\Models\Customer;
-use App\Domain\Common\Models\Schedule;
+use Domain\Customers\Models\Customer;
+use Domain\Schedules\Models\Schedule;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Domain\Common\Models\Schedule>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Domain\Schedules\Models\Schedule>
  */
 class ScheduleFactory extends Factory
 {

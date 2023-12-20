@@ -2,10 +2,12 @@
 
 declare(strict_types=1);
 
+use Domain\Barbers\Models\Barber;
 use Domain\Customers\Actions\Login;
 use Domain\Customers\Data\Actions\LoginData;
 use Domain\Customers\Models\Customer;
 
+use function Pest\Laravel\actingAs;
 use function Pest\Laravel\getJson;
 use function Pest\Laravel\postJson;
 
@@ -56,4 +58,13 @@ test('jwt authentication works', function () {
     getJson($route)->assertUnauthorized();
 
     getJson($route, ['Authorization' => "Bearer $jwt"])->assertOk();
+});
+
+test('customer area is accessable only for authenticated customers', function () {
+    $route = route('api.customer.profile.show');
+
+    getJson($route)->assertUnauthorized();
+    actingAs(Barber::factory()->create())->getJson($route)->assertUnauthorized();
+    actingAs(Barber::factory()->admin()->create())->getJson($route)->assertUnauthorized();
+    actingAs(Customer::factory()->create())->getJson($route)->assertOk();
 });

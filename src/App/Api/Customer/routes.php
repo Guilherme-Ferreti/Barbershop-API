@@ -10,9 +10,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::name('customer.')
     ->prefix('/auth')
-    ->middleware('auth')
+    ->middleware(['auth', 'customer'])
     ->group(function () {
-        Route::post('/login', LoginController::class)->name('login')->withoutMiddleware('auth');
+        Route::post('/login', LoginController::class)->name('login')->withoutMiddleware(['auth', 'customer']);
 
         Route::get('/me', [ProfileController::class, 'show'])->name('profile.show');
         Route::patch('/me', [ProfileController::class, 'update'])->name('profile.update');

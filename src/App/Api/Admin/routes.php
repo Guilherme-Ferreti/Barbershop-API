@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::name('admin.')
     ->prefix('/admin')
-    ->middleware('admin')
+    ->middleware(['auth', 'admin'])
     ->group(function () {
-        Route::post('/login', LoginController::class)->name('login')->withoutMiddleware('admin');
+        Route::post('/login', LoginController::class)->name('login')->withoutMiddleware(['auth', 'admin']);
 
         Route::get('/me', ProfileController::class)->name('profile.show');
 

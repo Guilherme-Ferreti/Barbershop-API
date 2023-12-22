@@ -1,0 +1,44 @@
+name: Test Suite
+
+on: [pull_request, push]
+
+jobs:
+  phpunit:
+    runs-on: ubuntu-latest
+    container:
+      image: kirschbaumdevelopment/laravel-test-runner:8.2
+    
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: testing
+        ports:
+          - 33306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+        
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+
+      - name: Install composer dependencies
+        run: |
+          composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+      - name: Prepare Laravel application
+        run: |
+          cp .env.ci .env
+          php artisan key:generate
+        
+      - name: Change directory permissions
+        run: chmod -R 777 storage bootstrap/cache public
+
+      - name: Prepare front-end assets
+        run: |
+          npm install
+          npm run build
+
+      - name: Run test suite
+        run: php artisan test

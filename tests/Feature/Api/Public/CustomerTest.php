@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Domain\Customers\Models\Customer;
-use Domain\Schedules\Models\Schedule;
+use Modules\Auth\Models\Customer;
+use Modules\Booking\Models\Appointment;
 
 use function Pest\Laravel\getJson;
 
@@ -11,8 +11,8 @@ uses()->group('public');
 
 test('a customer can be retrieved by phone number', function () {
     $customer = Customer::factory()
-        ->has(Schedule::factory()->pending())
-        ->has(Schedule::factory(3)->completed())
+        ->has(Appointment::factory()->pending())
+        ->has(Appointment::factory(3)->completed())
         ->create();
 
     $route = route('api.public.customers.show', $customer->phone_number);
@@ -24,7 +24,7 @@ test('a customer can be retrieved by phone number', function () {
             'id',
             'name',
             'phoneNumber',
-            'pendingSchedule' => [
+            'pendingAppointment' => [
                 'id',
                 'customerName',
                 'scheduledTo',
@@ -36,7 +36,7 @@ test('a customer can be retrieved by phone number', function () {
         ->id->toBe($customer->id)
         ->name->toBe($customer->name)
         ->phoneNumber->toBe($customer->phone_number)
-        ->pendingSchedule->id->toBe($customer->pendingSchedule->id);
+        ->pendingAppointment->id->toBe($customer->pendingAppointment->id);
 });
 
 test('a customer cannot be found using non-existing phone number', function () {

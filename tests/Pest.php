@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use Domain\Customers\Models\Customer;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Http;
+use Modules\Auth\Models\Customer;
 
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\json;

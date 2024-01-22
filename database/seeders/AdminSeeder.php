@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use Domain\Barbers\Models\Barber;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
+use Modules\Auth\Models\Barber;
 
 class AdminSeeder extends Seeder
 {

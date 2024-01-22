@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Domain\Customers\Models\Customer;
-use Domain\Schedules\Models\Schedule;
+use Modules\Auth\Models\Customer;
+use Modules\Booking\Models\Appointment;
 
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\assertModelExists;
@@ -11,13 +11,13 @@ use function Pest\Laravel\assertModelMissing;
 
 uses()->group('customer');
 
-test('a customer\'s schedules can be retrieved', function () {
+test('a customer\'s appointments can be retrieved', function () {
     $customer = Customer::factory()
-        ->has(Schedule::factory()->pending())
-        ->has(Schedule::factory(3)->completed())
+        ->has(Appointment::factory()->pending())
+        ->has(Appointment::factory(3)->completed())
         ->create();
 
-    $route = route('api.customer.schedules.index');
+    $route = route('api.customer.appointments.index');
 
     assertAuthenticatedOnly($route, 'get');
 
@@ -33,7 +33,7 @@ test('a customer\'s schedules can be retrieved', function () {
             'updatedAt',
             'isPending',
         ]])
-        ->each(fn ($schedule) => $schedule
+        ->each(fn ($appointment) => $appointment
             ->id->toBeString()
             ->customerName->toBeString()
             ->scheduledTo->toBeString()->toBeDateFormat('Y-m-d H:i')
@@ -46,35 +46,35 @@ test('a customer\'s schedules can be retrieved', function () {
     expect($response->collect()->where('isPending', false)->count())->toBe(3);
 });
 
-test('a customer can delete a pending schedule', function () {
-    $schedule = Schedule::factory()->pending()->for(Customer::factory())->create();
+test('a customer can delete a pending appointment', function () {
+    $appointment = Appointment::factory()->pending()->for(Customer::factory())->create();
 
-    $route = route('api.customer.pending-schedules.destroy', $schedule);
+    $route = route('api.customer.pending-appointments.destroy', $appointment);
 
     assertAuthenticatedOnly($route, 'delete');
     assertOwnerOnly($route, 'delete');
 
-    actingAs($schedule->customer)->deleteJson($route)->assertNoContent();
+    actingAs($appointment->customer)->deleteJson($route)->assertNoContent();
 
-    assertModelMissing($schedule);
+    assertModelMissing($appointment);
 });
 
-test('a customer cannot delete other customers\'s pending schedules', function () {
-    $schedule = Schedule::factory()->pending()->for(Customer::factory())->create();
+test('a customer cannot delete other customers\'s pending appointments', function () {
+    $appointment = Appointment::factory()->pending()->for(Customer::factory())->create();
 
-    $route = route('api.customer.pending-schedules.destroy', $schedule);
+    $route = route('api.customer.pending-appointments.destroy', $appointment);
 
     actingAs(Customer::factory()->create())->deleteJson($route)->assertNotFound();
 
-    assertModelExists($schedule);
+    assertModelExists($appointment);
 });
 
-test('a customer completed schedule cannot be deleted', function () {
-    $schedule = Schedule::factory()->completed()->for(Customer::factory())->create();
+test('a customer completed appointment cannot be deleted', function () {
+    $appointment = Appointment::factory()->completed()->for(Customer::factory())->create();
 
-    $route = route('api.customer.pending-schedules.destroy', $schedule);
+    $route = route('api.customer.pending-appointments.destroy', $appointment);
 
-    actingAs($schedule->customer)->deleteJson($route)->assertNotFound();
+    actingAs($appointment->customer)->deleteJson($route)->assertNotFound();
 
-    assertModelExists($schedule);
+    assertModelExists($appointment);
 });

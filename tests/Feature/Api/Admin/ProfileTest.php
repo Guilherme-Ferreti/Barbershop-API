@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Domain\Barbers\Models\Barber;
+use Modules\Auth\Models\Barber;
 
 use function Pest\Laravel\actingAs;
 

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-use Domain\Barbers\Actions\Login;
-use Domain\Barbers\Data\Actions\LoginData;
-use Domain\Barbers\Models\Barber;
-use Domain\Customers\Models\Customer;
+use Modules\Auth\Actions\AuthenticateBarber;
+use Modules\Auth\Data\Actions\AuthenticateBarberData;
+use Modules\Auth\Models\Barber;
+use Modules\Auth\Models\Customer;
 
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\getJson;
@@ -47,7 +47,7 @@ test('a barber cannot login using non-existing password', function () {
 test('jwt authentication works', function () {
     Barber::factory()->create();
 
-    [, $jwt] = app(Login::class)->handle(new LoginData('password'));
+    [, $jwt] = app(AuthenticateBarber::class)->handle(new AuthenticateBarberData('password'));
 
     $route = route('api.admin.profile.show');
 

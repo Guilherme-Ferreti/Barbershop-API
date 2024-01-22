@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-use Domain\Barbers\Models\Barber;
-use Domain\Customers\Actions\Login;
-use Domain\Customers\Data\Actions\LoginData;
-use Domain\Customers\Models\Customer;
+use Modules\Auth\Actions\AuthenticateCustomer;
+use Modules\Auth\Data\Actions\AuthenticateCustomerData;
+use Modules\Auth\Models\Barber;
+use Modules\Auth\Models\Customer;
 
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\getJson;
@@ -51,7 +51,7 @@ test('a customer cannot login using wrong phone number', function () {
 test('jwt authentication works', function () {
     $customer = Customer::factory()->create();
 
-    [, $jwt] = app(Login::class)->handle(new LoginData($customer->phone_number));
+    [, $jwt] = app(AuthenticateCustomer::class)->handle(new AuthenticateCustomerData($customer->phone_number));
 
     $route = route('api.customer.profile.show');
 

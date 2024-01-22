@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Api\Admin\Middlewares;
 
 use Closure;
-use Domain\Barbers\Models\Barber;
 use Illuminate\Http\Request;
+use Modules\Auth\Models\Barber;
 use Symfony\Component\HttpFoundation\Response;
 
 class EnsureCanAccessAdminArea

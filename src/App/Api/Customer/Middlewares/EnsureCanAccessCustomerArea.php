@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Api\Customer\Middlewares;
 
 use Closure;
-use Domain\Customers\Models\Customer;
 use Illuminate\Http\Request;
+use Modules\Auth\Models\Customer;
 use Symfony\Component\HttpFoundation\Response;
 
 class EnsureCanAccessCustomerArea

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
-use Domain\Customers\Models\Customer;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Modules\Auth\Models\Customer;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Domain\Customers\Models\Customer>

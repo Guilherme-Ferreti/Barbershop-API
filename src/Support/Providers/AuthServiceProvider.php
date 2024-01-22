@@ -9,7 +9,7 @@ use Firebase\JWT\Key;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Support\Enums\AuthType;
+use Modules\Auth\Enums\AuthType;
 
 class AuthServiceProvider extends ServiceProvider
 {

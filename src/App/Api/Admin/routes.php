@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
+use App\Api\Admin\Controllers\AppointmentController;
 use App\Api\Admin\Controllers\BookingCalendarController;
 use App\Api\Admin\Controllers\LoginController;
-use App\Api\Admin\Controllers\PendingScheduleController;
+use App\Api\Admin\Controllers\PendingAppointmentController;
 use App\Api\Admin\Controllers\ProfileController;
-use App\Api\Admin\Controllers\ScheduleController;
 use Illuminate\Support\Facades\Route;
 
 Route::name('admin.')
@@ -17,9 +17,9 @@ Route::name('admin.')
 
         Route::get('/me', ProfileController::class)->name('profile.show');
 
-        Route::get('/booking-calendar', BookingCalendarController::class)->name('schedules.booking-calendar');
+        Route::get('/booking-calendar', BookingCalendarController::class)->name('booking-calendar');
 
-        Route::delete('/pending-schedules/{pendingSchedule}', [PendingScheduleController::class, 'destroy'])->name('pending-schedules.destroy');
+        Route::delete('/pending-schedules/{pendingAppointment}', [PendingAppointmentController::class, 'destroy'])->name('pending-appointments.destroy');
 
-        Route::post('/schedules', [ScheduleController::class, 'store'])->name('schedules.store');
+        Route::post('/schedules', [AppointmentController::class, 'store'])->name('appointments.store');
     });

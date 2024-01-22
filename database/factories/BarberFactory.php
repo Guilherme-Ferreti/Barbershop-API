@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
-use Domain\Barbers\Models\Barber;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
+use Modules\Auth\Models\Barber;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Domain\Barbers\Models\Barber>

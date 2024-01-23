@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Support\Providers;
+namespace Modules\Auth\Infrastructure\Providers;
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;

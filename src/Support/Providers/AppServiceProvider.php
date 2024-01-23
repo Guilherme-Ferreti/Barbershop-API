@@ -29,11 +29,21 @@ class AppServiceProvider extends ServiceProvider
 
         Model::preventLazyLoading(! app()->isProduction());
 
+        $this->registerTelescope();
+
+        $this->configureMacros();
+    }
+
+    private function registerTelescope(): void
+    {
         if ($this->app->environment('local')) {
             $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
             $this->app->register(TelescopeServiceProvider::class);
         }
+    }
 
+    private function configureMacros(): void
+    {
         Carbon::macro('isSameHourAndMinute', fn ($date) => $this->isSameHour($date) && $this->isSameMinute($date));
 
         Carbon::macro('tryCreateFromFormat', function (string $format, $value) {

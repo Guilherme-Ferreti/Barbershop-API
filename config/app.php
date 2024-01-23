@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
+use Modules\Auth\Infrastructure\Providers\AuthServiceProvider;
+use Modules\Booking\Infrastructure\Providers\BookingServiceProvider;
 
 return [
 
@@ -166,10 +168,11 @@ return [
          * Application Service Providers...
          */
         Support\Providers\AppServiceProvider::class,
-        Support\Providers\AuthServiceProvider::class,
-        // Support\Providers\BroadcastServiceProvider::class,
         Support\Providers\EventServiceProvider::class,
         Support\Providers\RouteServiceProvider::class,
+
+        AuthServiceProvider::class,
+        BookingServiceProvider::class,
     ])->toArray(),
 
     /*

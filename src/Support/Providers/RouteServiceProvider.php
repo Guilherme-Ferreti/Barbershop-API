@@ -9,7 +9,6 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
-use Modules\Booking\Models\Appointment;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -30,7 +29,6 @@ class RouteServiceProvider extends ServiceProvider
         RateLimiter::for('api', fn (Request $request) => Limit::perMinute(60)->by($request->user()?->id ?: $request->ip()));
 
         $this->configureRoute();
-        $this->configureCustomRouteBindings();
 
     }
 
@@ -46,10 +44,5 @@ class RouteServiceProvider extends ServiceProvider
                     base_path('src/App/Api/Public/routes.php'),
                 ]);
         });
-    }
-
-    private function configureCustomRouteBindings(): void
-    {
-        Route::bind('pendingAppointment', fn (string $value) => Appointment::pending()->findOrFail($value));
     }
 }

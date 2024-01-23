@@ -34,10 +34,15 @@ class GetBookingCalendar
 
         $this->appointments = Appointment::query()
             ->with('customer')
-            ->whereDateBetween(
+            ->where(
                 'scheduled_to',
-                $calendarRange->getStartDate()->format('Y-m-d'),
-                $calendarRange->getEndDate()->format('Y-m-d')
+                '>=',
+                $calendarRange->getStartDate()->startOfDay()->format('Y-m-d H:i:s'),
+            )
+            ->where(
+                'scheduled_to',
+                '<=',
+                $calendarRange->getEndDate()->endOfDay()->format('Y-m-d H:i:s'),
             )
             ->get();
     }

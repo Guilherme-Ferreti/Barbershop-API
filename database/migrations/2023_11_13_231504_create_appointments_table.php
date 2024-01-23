@@ -17,7 +17,7 @@ return new class extends Migration
         Schema::create('appointments', function (Blueprint $table) {
             $table->ulid('id')->primary();
             $table->foreignIdFor(Customer::class)->nullable();
-            $table->timestamp('scheduled_to');
+            $table->timestamp('scheduled_to')->index();
             $table->string('customer_name');
             $table->timestamps();
         });

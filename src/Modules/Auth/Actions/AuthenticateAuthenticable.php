@@ -41,7 +41,7 @@ abstract class AuthenticateAuthenticable
     {
         $throttleKey = $this->throttleKey();
 
-        if (! RateLimiter::tooManyAttempts($throttleKey, config('auth.rate_limit.decay_seconds', 60))) {
+        if (! RateLimiter::tooManyAttempts($throttleKey, config('auth.rate_limit.max_attempts', 5))) {
             return;
         }
 

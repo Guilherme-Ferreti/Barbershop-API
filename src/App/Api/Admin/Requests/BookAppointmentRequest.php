@@ -6,7 +6,6 @@ namespace App\Api\Admin\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Modules\Booking\Rules\AvailableBookingHour;
-use Modules\Booking\Rules\BrazilianPhoneNumber;
 
 class BookAppointmentRequest extends FormRequest
 {
@@ -15,7 +14,7 @@ class BookAppointmentRequest extends FormRequest
         return [
             'scheduledTo'         => ['bail', 'required', 'date_format:Y-m-d H:i', new AvailableBookingHour],
             'customerName'        => ['required', 'string', 'max:255'],
-            'customerPhoneNumber' => ['sometimes', 'nullable', 'string', new BrazilianPhoneNumber],
+            'customerPhoneNumber' => ['sometimes', 'nullable', 'string', 'phone:BR'],
         ];
     }
 }

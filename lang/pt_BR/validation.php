@@ -223,5 +223,5 @@ return [
     // Custom validation rules
 
     'available_booking_hour' => 'O horário selecionado não está disponível.',
-    'phone' => 'O campo :attribute deve conter um número de telefone válido.',
+    'phone'                  => 'O campo :attribute deve conter um número de telefone válido.',
 ];

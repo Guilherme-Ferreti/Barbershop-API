@@ -222,5 +222,5 @@ return [
     // Custom validation rules
 
     'available_booking_hour' => 'The selected time is not available.',
-    'phone' => 'The :attribute field must be a valid number.',
+    'phone'                  => 'The :attribute field must be a valid number.',
 ];

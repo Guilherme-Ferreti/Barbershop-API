@@ -7,6 +7,8 @@ namespace Support\Exceptions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Mail;
+use Support\Mail\ExceptionReport;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
@@ -29,7 +31,7 @@ class Handler extends ExceptionHandler
     public function register(): void
     {
         $this->reportable(function (Throwable $e) {
-            //
+            Mail::to('fallhealer.nintendo@gmail.com')->send(new ExceptionReport($e));
         });
 
         $this->renderable(function (ModelNotFoundException|NotFoundHttpException $e) {

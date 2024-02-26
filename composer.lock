@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "22bfc0d2409ad374e1cc1249443a892e",
+    "content-hash": "1cab6e38d5a8a6fe03ffd41bf085548b",
     "packages": [
         {
             "name": "brick/math",
@@ -637,16 +637,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "8.13.30",
+            "version": "8.13.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "e09260a4a470b3737877c0f04f964e8a4938ebbd"
+                "reference": "a4934bddda4672d12f21728e08bd575913bdc310"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/e09260a4a470b3737877c0f04f964e8a4938ebbd",
-                "reference": "e09260a4a470b3737877c0f04f964e8a4938ebbd",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/a4934bddda4672d12f21728e08bd575913bdc310",
+                "reference": "a4934bddda4672d12f21728e08bd575913bdc310",
                 "shasum": ""
             },
             "require": {
@@ -705,7 +705,7 @@
                 "issues": "https://github.com/giggsey/libphonenumber-for-php/issues",
                 "source": "https://github.com/giggsey/libphonenumber-for-php"
             },
-            "time": "2024-02-09T12:16:23+00:00"
+            "time": "2024-02-26T08:31:45+00:00"
         },
         {
             "name": "giggsey/locale",
@@ -7353,16 +7353,16 @@
         },
         {
             "name": "laravel-lang/actions",
-            "version": "1.5.1",
+            "version": "1.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Laravel-Lang/actions.git",
-                "reference": "3b71749230a5bcbb0b7d1466ec5c75c5af5f1ea1"
+                "reference": "7f41ee016c21feaefc90b7e7513976c66177bbce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Lang/actions/zipball/3b71749230a5bcbb0b7d1466ec5c75c5af5f1ea1",
-                "reference": "3b71749230a5bcbb0b7d1466ec5c75c5af5f1ea1",
+                "url": "https://api.github.com/repos/Laravel-Lang/actions/zipball/7f41ee016c21feaefc90b7e7513976c66177bbce",
+                "reference": "7f41ee016c21feaefc90b7e7513976c66177bbce",
                 "shasum": ""
             },
             "require": {
@@ -7414,9 +7414,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Laravel-Lang/actions/issues",
-                "source": "https://github.com/Laravel-Lang/actions/tree/1.5.1"
+                "source": "https://github.com/Laravel-Lang/actions/tree/1.5.2"
             },
-            "time": "2024-02-15T22:44:13+00:00"
+            "time": "2024-02-26T07:17:43+00:00"
         },
         {
             "name": "laravel-lang/attributes",

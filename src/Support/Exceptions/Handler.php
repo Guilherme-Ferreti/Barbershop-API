@@ -31,7 +31,7 @@ class Handler extends ExceptionHandler
     public function register(): void
     {
         $this->reportable(function (Throwable $e) {
-            Mail::to('fallhealer.nintendo@gmail.com')->send(new ExceptionReport($e));
+            //
         });
 
         $this->renderable(function (ModelNotFoundException|NotFoundHttpException $e) {

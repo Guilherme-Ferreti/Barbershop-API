@@ -149,9 +149,9 @@ class GetBookingCalendar
             return false;
         }
 
-        $hourIsPastTodaysHour = $day->isToday() && now()->greaterThan($hour);
+        $hourIsPastCurrentHour = $day->isToday() && now()->greaterThan($hour);
 
-        if ($hourIsPastTodaysHour) {
+        if ($hourIsPastCurrentHour) {
             return false;
         }
 

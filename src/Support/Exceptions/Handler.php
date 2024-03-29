@@ -7,8 +7,6 @@ namespace Support\Exceptions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Mail;
-use Support\Mail\ExceptionReport;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 

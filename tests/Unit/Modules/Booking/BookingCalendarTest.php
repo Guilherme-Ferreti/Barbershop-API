@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Illuminate\Support\Carbon;
 use Modules\Booking\Actions\GetBookingCalendar;
 use Modules\Booking\Data\BookingDayData;
 use Modules\Booking\Data\BookingHourData;
@@ -53,8 +54,8 @@ test('booking calendar creates booking times gaps correctly', function (array $h
     ]],
 ]);
 
-test('booking calendar sets today\'s booking times as unavailable if current hour is past booking time hour', function (int $currentHour, array $unavailableHours, array $availableHours) {
-    travelTo(now()->startOfWeek()->addHours($currentHour));
+test('booking calendar sets today\'s previous booking times as unavailable if current hour is past booking time hour', function (int $currentHour, array $unavailableHours, array $availableHours) {
+    travelTo(now()->startOfWeek(Carbon::MONDAY)->addHours($currentHour));
 
     $hours = app(GetBookingCalendar::class)
         ->handle()
@@ -62,21 +63,21 @@ test('booking calendar sets today\'s booking times as unavailable if current hou
         ->first()
         ->hours;
 
-    $unAvailableBookingHours = $hours
+    $unavailableBookingHours = $hours
         ->where('is_available', false)
         ->map(fn (BookingHourData $hour) => $hour->date->format('H:i'))
         ->values()
         ->toArray();
 
-    expect($unAvailableBookingHours)->toEqual($unavailableHours);
+    expect($unavailableBookingHours)->toEqual($unavailableHours);
 
-    $AvailableBookingHours = $hours
+    $availableBookingHours = $hours
         ->where('is_available', true)
         ->map(fn (BookingHourData $hour) => $hour->date->format('H:i'))
         ->values()
         ->toArray();
 
-    expect($AvailableBookingHours)->toEqual($availableHours);
+    expect($availableBookingHours)->toEqual($availableHours);
 
 })->with([
     'Opens at 8:20h, lunch at 13:00h, back from lunch at 15:00h, closes 20:00h, 40 minutes gap' => [

@@ -14,6 +14,7 @@ class BookAppointmentController extends Controller
     public function store(BookAppointmentRequest $request)
     {
         $appointment = app(BookAppointment::class)->handle(
+            barberId: $request->input('barberId'),
             scheduledTo: $request->date('scheduledTo', 'Y-m-d H:i'),
             customerName: $request->input('customerName'),
             customerPhoneNumber: $request->input('customerPhoneNumber'),

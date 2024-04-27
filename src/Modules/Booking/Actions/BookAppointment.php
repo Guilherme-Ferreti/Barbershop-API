@@ -12,6 +12,7 @@ use Modules\Booking\Models\Appointment;
 class BookAppointment
 {
     public function handle(
+        string $barberId,
         Carbon $scheduledTo,
         string $customerName,
         ?string $customerPhoneNumber,
@@ -30,6 +31,7 @@ class BookAppointment
         }
 
         $appointment = Appointment::create([
+            'barber_id'     => $barberId,
             'scheduled_to'  => $scheduledTo,
             'customer_name' => $customerName,
             'customer_id'   => $customer?->id,

@@ -18,6 +18,11 @@ class AppointmentResource extends JsonResource
             'isPending'    => $this->isPending(),
             'createdAt'    => format_date($this->created_at),
             'updatedAt'    => format_date($this->updated_at),
+
+            'barber' => [
+                'id'   => $this->barber->id,
+                'name' => $this->barber->name,
+            ],
         ];
     }
 }

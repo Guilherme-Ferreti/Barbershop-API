@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Modules\Auth\Models\Barber;
 use Modules\Auth\Models\Customer;
 
 class Appointment extends Model
@@ -17,6 +18,7 @@ class Appointment extends Model
     use HasFactory, HasUlids;
 
     protected $fillable = [
+        'barber_id',
         'customer_id',
         'scheduled_to',
         'customer_name',
@@ -29,6 +31,11 @@ class Appointment extends Model
     protected static function newFactory(): AppointmentFactory
     {
         return new AppointmentFactory;
+    }
+
+    public function barber(): BelongsTo
+    {
+        return $this->belongsTo(Barber::class);
     }
 
     public function customer(): BelongsTo

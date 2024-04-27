@@ -14,6 +14,10 @@ class BookingCalendarResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'barber' => [
+                'id'   => $this->barber->id,
+                'name' => $this->barber->name,
+            ],
             'bookingDays' => $this->days->map(fn (BookingDayData $day) => [
                 'date'         => format_date($day->date, 'Y-m-d'),
                 'types'        => $day->types,

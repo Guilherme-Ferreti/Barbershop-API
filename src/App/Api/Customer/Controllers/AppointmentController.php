@@ -11,7 +11,7 @@ class AppointmentController extends Controller
 {
     public function index()
     {
-        $appointments = current_user()->appointments()->orderByDesc('created_at')->get();
+        $appointments = current_user()->appointments()->with('barber')->orderByDesc('created_at')->get();
 
         return AppointmentResource::collection($appointments);
     }

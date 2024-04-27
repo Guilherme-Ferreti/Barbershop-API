@@ -8,6 +8,7 @@ use Carbon\CarbonImmutable;
 use Carbon\CarbonPeriodImmutable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Modules\Auth\Models\Barber;
 use Modules\Booking\Data\BookingCalendarData;
 use Modules\Booking\Data\BookingDayData;
 use Modules\Booking\Data\BookingHourData;
@@ -19,11 +20,16 @@ class GetBookingCalendar
 {
     public Collection $appointments;
 
-    public function handle(): BookingCalendarData
+    public Barber $barber;
+
+    public function handle(Barber $barber): BookingCalendarData
     {
+        $this->barber = $barber;
+
         $this->loadAppointments();
 
         return new BookingCalendarData(
+            barber: $barber,
             days: $this->getBookingDays(),
         );
     }
@@ -34,6 +40,7 @@ class GetBookingCalendar
 
         $this->appointments = Appointment::query()
             ->with('customer')
+            ->where('barber_id', $this->barber->id)
             ->where(
                 'scheduled_to',
                 '>=',

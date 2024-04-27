@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Modules\Booking\Data;
 
 use Illuminate\Support\Collection;
+use Modules\Auth\Models\Barber;
 
 readonly class BookingCalendarData
 {
     public function __construct(
+        public Barber $barber,
         public Collection $days,
     ) {
     }

@@ -12,6 +12,6 @@ class BookingCalendarController extends Controller
 {
     public function __invoke()
     {
-        return new BookingCalendarResource(app(GetBookingCalendar::class)->handle());
+        return new BookingCalendarResource(app(GetBookingCalendar::class)->handle(current_user()));
     }
 }

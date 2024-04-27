@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Modules\Auth\Models\Barber;
 use Modules\Auth\Models\Customer;
 use Modules\Booking\Models\Appointment;
 
@@ -18,6 +19,7 @@ class AppointmentFactory extends Factory
     public function definition(): array
     {
         return [
+            'barber_id'     => Barber::factory(),
             'customer_id'   => Customer::factory(),
             'customer_name' => fn (array $attributes) => Customer::find($attributes['customer_id'])->name,
             'scheduled_to'  => fake()->dateTime(),

@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Carbon;
+use Modules\Auth\Models\Barber;
 use Modules\Booking\Actions\GetBookingCalendar;
 use Modules\Booking\Data\BookingDayData;
 use Modules\Booking\Data\BookingHourData;
@@ -14,7 +15,7 @@ uses()->group('appointments');
 test('booking calendar displays correct number of booking days', function () {
     $daysAmount = 8;
 
-    $bookingCalendar = app(GetBookingCalendar::class)->handle();
+    $bookingCalendar = app(GetBookingCalendar::class)->handle(Barber::factory()->create());
 
     expect($bookingCalendar->days)->toHaveCount($daysAmount);
 });
@@ -22,7 +23,7 @@ test('booking calendar displays correct number of booking days', function () {
 test('booking calendar creates booking times gaps correctly', function (array $hours) {
     travelTo(now()->startOfDay());
 
-    $bookingCalendar = app(GetBookingCalendar::class)->handle();
+    $bookingCalendar = app(GetBookingCalendar::class)->handle(Barber::factory()->create());
 
     $bookingCalendar
         ->days
@@ -58,7 +59,7 @@ test('booking calendar sets today\'s previous booking times as unavailable if cu
     travelTo(now()->startOfWeek(Carbon::MONDAY)->addHours($currentHour));
 
     $hours = app(GetBookingCalendar::class)
-        ->handle()
+        ->handle(Barber::factory()->create())
         ->days
         ->first()
         ->hours;

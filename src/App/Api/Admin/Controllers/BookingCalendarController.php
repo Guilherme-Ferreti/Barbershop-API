@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Api\Admin\Controllers;
 
 use App\Api\Admin\Resources\BookingCalendarResource;
-use Modules\Booking\Actions\GetBookingCalendar;
+use Modules\Booking\Actions\GetBookingCalendarForAllBarbers;
 use Support\Http\Controllers\Controller;
 
 class BookingCalendarController extends Controller
 {
     public function __invoke()
     {
-        return new BookingCalendarResource(app(GetBookingCalendar::class)->handle(current_user()));
+        return BookingCalendarResource::collection(app(GetBookingCalendarForAllBarbers::class)->handle());
     }
 }

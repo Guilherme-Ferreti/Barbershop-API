@@ -31,6 +31,11 @@ class BookingCalendarResource extends JsonResource
                     ], null),
                 ]),
             ]),
+
+            'barber' => [
+                'id'   => $this->barber->id,
+                'name' => $this->barber->name,
+            ],
         ];
     }
 }

@@ -18,9 +18,10 @@ uses()->group('admin');
 test('a barber can create an appointment without customer phone number', function () {
     $barber = Barber::factory()->create();
 
-    $hour = app(GetBookingCalendar::class)->handle()->firstAvailableBookingHour();
+    $hour = app(GetBookingCalendar::class)->handle($barber)->firstAvailableBookingHour();
 
     $payload = [
+        'barberId'            => Barber::factory()->create()->id,
         'customerName'        => fake()->name(),
         'customerPhoneNumber' => null,
         'scheduledTo'         => $hour->date->format('Y-m-d H:i'),
@@ -29,6 +30,7 @@ test('a barber can create an appointment without customer phone number', functio
     $response = actingAs($barber)->postJson(route('api.admin.appointments.store'), $payload)->assertCreated();
 
     assertDatabaseHas(Appointment::class, [
+        'barber_id'     => $payload['barberId'],
         'customer_name' => $payload['customerName'],
         'scheduled_to'  => $hour->date->format('Y-m-d H:i:s'),
     ]);
@@ -42,6 +44,7 @@ test('a barber can create an appointment without customer phone number', functio
             'createdAt',
             'updatedAt',
             'customer',
+            'barber' => ['id', 'name'],
         ])
         ->customer->toBeNull();
 });
@@ -50,9 +53,10 @@ test('a barber can create an appointment for non-existing customer', function ()
     $barber   = Barber::factory()->create();
     $customer = Customer::factory()->make();
 
-    $hour = app(GetBookingCalendar::class)->handle()->firstAvailableBookingHour();
+    $hour = app(GetBookingCalendar::class)->handle($barber)->firstAvailableBookingHour();
 
     $payload = [
+        'barberId'            => $barber->id,
         'customerName'        => $customer->name,
         'customerPhoneNumber' => $customer->phone_number,
         'scheduledTo'         => $hour->date->format('Y-m-d H:i'),
@@ -66,6 +70,7 @@ test('a barber can create an appointment for non-existing customer', function ()
     ]);
 
     assertDatabaseHas(Appointment::class, [
+        'barber_id'     => $payload['barberId'],
         'customer_id'   => Customer::first()->id,
         'customer_name' => $payload['customerName'],
         'scheduled_to'  => $hour->date->format('Y-m-d H:i:s'),
@@ -84,6 +89,7 @@ test('a barber can create an appointment for non-existing customer', function ()
                 'name',
                 'phoneNumber',
             ],
+            'barber' => ['id', 'name'],
         ]);
 });
 
@@ -91,9 +97,10 @@ test('a barber can create an appointment for existing customer', function () {
     $barber   = Barber::factory()->create();
     $customer = Customer::factory()->create();
 
-    $hour = app(GetBookingCalendar::class)->handle()->firstAvailableBookingHour();
+    $hour = app(GetBookingCalendar::class)->handle($barber)->firstAvailableBookingHour();
 
     $payload = [
+        'barberId'            => $barber->id,
         'customerName'        => $customer->name,
         'customerPhoneNumber' => $customer->phone_number,
         'scheduledTo'         => $hour->date->format('Y-m-d H:i'),
@@ -104,6 +111,7 @@ test('a barber can create an appointment for existing customer', function () {
     assertDatabaseCount(Customer::class, 1);
 
     assertDatabaseHas(Appointment::class, [
+        'barber_id'     => $barber->id,
         'customer_id'   => $customer->id,
         'customer_name' => $payload['customerName'],
         'scheduled_to'  => $hour->date->format('Y-m-d H:i:s'),

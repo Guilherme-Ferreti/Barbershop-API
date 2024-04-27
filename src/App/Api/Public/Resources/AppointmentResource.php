@@ -25,10 +25,10 @@ class AppointmentResource extends JsonResource
                 'phoneNumber' => $this->customer->phone_number,
             ], null),
 
-            'barber' => $this->whenLoaded('barber', fn () => [
+            'barber' => [
                 'id'   => $this->barber_id,
                 'name' => $this->barber->name,
-            ]),
+            ],
         ];
     }
 }

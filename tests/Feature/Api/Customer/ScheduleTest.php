@@ -32,6 +32,7 @@ test('a customer\'s appointments can be retrieved', function () {
             'createdAt',
             'updatedAt',
             'isPending',
+            'barber' => ['id', 'name'],
         ]])
         ->each(fn ($appointment) => $appointment
             ->id->toBeString()

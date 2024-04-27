@@ -8,20 +8,20 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
 use Modules\Auth\Models\Barber;
 
-class AdminSeeder extends Seeder
+class BarberSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        $admins = Storage::json('administrators.json');
+        $barbers = Storage::json('barbers.json');
 
-        foreach ($admins as $admin) {
+        foreach ($barbers as $barber) {
             Barber::factory()->create([
-                'name'     => $admin['name'],
-                'password' => $admin['password'],
-                'is_admin' => true,
+                'name'     => $barber['name'],
+                'password' => $barber['password'],
+                'is_admin' => $barber['is_admin'],
             ]);
         }
     }

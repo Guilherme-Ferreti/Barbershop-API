@@ -31,6 +31,7 @@ test('a customer can be retrieved by phone number', function () {
                 'createdAt',
                 'updatedAt',
                 'isPending',
+                'barber' => ['id', 'name'],
             ],
         ])
         ->id->toBe($customer->id)

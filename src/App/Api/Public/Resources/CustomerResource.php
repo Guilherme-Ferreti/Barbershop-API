@@ -23,6 +23,11 @@ class CustomerResource extends JsonResource
                 'isPending'    => $this->pendingAppointment->isPending(),
                 'createdAt'    => format_date($this->pendingAppointment->created_at),
                 'updatedAt'    => format_date($this->pendingAppointment->updated_at),
+
+                'barber' => [
+                    'id'   => $this->pendingAppointment->barber_id,
+                    'name' => $this->pendingAppointment->barber->name,
+                ],
             ], null),
         ];
     }
